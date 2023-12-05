@@ -1,0 +1,20 @@
+<h1><%= product._id ? "Edit" : "New" %> Product</h1>
+<div id="form-container">
+    <form action="/products/edit/<%= product._id ? product._id : '' %>" method="POST">
+        <label for="productName">Product Name: </label>
+        <input id="productName" name="productName" type="text" value=<%= product.productName ? product.productName : '' %>>
+    
+        <input type="hidden" id="product_id" name="product_id" value=<%= product._id %>>
+        <label for="unitCost">Unit Cost: </label>
+    
+        <input id="unitCost" name="unitCost" type="text" value=<%= product.unitCost ? product.unitCost : '' %>>
+        <label for="productCode">Product Code: </label>
+    
+        <input id="productCode" name="productCode" type="text" value=<%= product.productCode ? product.productCode : '' %>>
+    
+        <button type="submit" value="Submit" class="btn btn-success">Submit</button>
+    </form>
+    <a href="/products"><button class="btn btn-primary">Back to Products</button></a>
+</div>
+<%= errorMessage %>
+

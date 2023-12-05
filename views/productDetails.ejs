@@ -1,0 +1,17 @@
+<main id="details-container">
+    <% for (let i = 0; i < products.length; i++) { %> <% if (products[i].id ===
+        productId) { %>
+        <h1><%= products[i].productName%></h1>
+        <div id="view">
+            <div><strong>Product ID:</strong> <%= products[i].id%></div>
+            <div><strong>Code:</strong> <%= products[i].productCode%></div>
+            <div><strong>Cost:</strong> <%= products[i].unitCost%></div>
+        </div>
+        <div id="edit">
+            <a href="/products/edit/<%=products[i]._id%>"><button class="btn btn-warning">Edit</button></a>
+        </div>
+        <div id="back-to-btn">
+            <a href="/products"><button class="btn btn-primary">Back to Products</button></a
+        </div>
+    <% } %> <% } %>
+</main>

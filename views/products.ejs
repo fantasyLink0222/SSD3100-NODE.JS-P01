@@ -1,0 +1,29 @@
+<head>
+    <link rel="stylesheet" href="/styles/styles.css">
+</head>
+<main>
+    <div class="header-container">
+        <h1>Products</h1>
+        <form action="/products/search" method="GET">
+          <input class="searchbar" type="text" name="q" placeholder="Search by product name">
+          <button class="btn btn-primary" type="submit">Search</button>
+        </form>
+    </div>
+    <div class="header-container">
+        <a class="btn btn-success" href="/products/edit">Add New Product</a> <!--change path name to the one you create if needed-->
+    </div>
+    <div id="list-container">
+        <ul>
+            <% products.forEach(product => { %>
+                <% if (product && product.productName && product._id) { %>
+                    <li class="clientsNames">
+                        <a href="/products/<%= product._id %>"><%= product.productName %></a> 
+                        <a href="/products/<%= product._id%>/delete"><button id="cliDelBtn" class="btn btn-danger">Delete</button></a>
+                    </li>
+                <% } %>
+            <% }) %>
+        </ul>
+    </div>
+</main>
+
+

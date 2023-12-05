@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Profile</title>
+</head>
+<body>
+    <h3>New Client</h3>
+
+    <form action="/profiles/create" method="POST">   
+        <div>
+            <label for="name">Name:</label>
+            <input id="name" name="name" type="text" value=<%= profiles.name ? profiles.name : '' %> >
+        </div>
+        <div>
+            <label for="code">Code:</label>
+            <input id="code" name="code" type="text" value=<%= profiles.code ? profiles.code : '' %> >
+        </div>
+        <div>
+            <label for="company">Company:</label>
+            <input id="company" name="company" type="text" value=<%= profiles.company ? profiles.company : '' %> >
+        </div>
+        <div>
+            <label for="email">Email:</label>
+            <input id="email" name="email" type="text" value=<%= profiles.email ? profiles.email : '' %> >
+        </div>
+        <button type="submit" value="Submit">Submit</button>
+    </form>
+   
+</body>
+</html>

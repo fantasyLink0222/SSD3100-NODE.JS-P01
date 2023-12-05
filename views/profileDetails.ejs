@@ -1,0 +1,18 @@
+<main id="details-container">
+    <% for (let i=0; i < profiles.length; i++) { %> <% if
+        (profiles[i].id===profileId) { %>
+        <h1><%= profiles[i].name %></h1>
+        <div id="view">
+            <div><strong>ID:</strong> <%= profiles[i].id %></div>
+            <div><strong>Code:</strong> <%= profiles[i].code %></div>
+            <div><strong>Company:</strong> <%= profiles[i].company %></div>
+            <div><strong>Email:</strong> <%= profiles[i].email %></div>
+        </div>
+        <div id="edit">
+            <a href="/profiles/edit/<%= profileId %>"><button class="btn btn-warning">Edit</button></a>
+        </div>
+        <div id="back-to-btn">
+            <a href="/profiles"><button class="btn btn-primary">Back to Clients</button></a
+        </div>
+    <% } %> <% } %>
+</main>
