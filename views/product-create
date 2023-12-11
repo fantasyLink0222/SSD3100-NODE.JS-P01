@@ -1,7 +1,0 @@
-<h3>Create New Product</h3>
-<form action="/products/create" method="POST">
-    <label for="productName">Product Name: </label>
-    <input id="productName" name="productName" type="text" value=<%= products.productName ? products.productName : '' %>> 
-    <button type="submit" value="Submit">Submit</button>
-</form>
-<%= errorMessage %>

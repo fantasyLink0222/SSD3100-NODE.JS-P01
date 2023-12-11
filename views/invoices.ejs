@@ -1,6 +1,23 @@
 <main id="invoice-page">
-    <section>
-      <h1><%= title %></h1>
-      <h2>Under Contruction And Coming Soon!</h2>
-    </section>
+  <section>
+    <h1><%= title %></h1>
+    <form id="searchForm" action="/invoices/search" method="GET">
+      <input class="searchbar" type="text" name="q" placeholder="Search by name">
+      <button class="btn btn-primary" type="submit">Search</button>
+    </form>
+    <a id="create-invoice" href="/invoices/create"><button id="newInvoice" class="btn btn-success">New Invoice</button></a>
+
+  </section>
+  <div id="list-container">
+    <ul>
+      <% invoices.forEach(invoice => { %>
+          <% if (invoice && invoice._id) { %>
+              <li class="invoices-list">
+                  <a href="/invoices/<%= invoice._id %>"><%= invoice._id+"-"+invoice.payee.name, %> </a> 
+                  <a href="/invoices/<%= invoice._id%>/delete"><button id="invDelBtn" class="btn btn-danger">Delete</button></a>
+              </li>
+          <% } %>
+      <% }) %>
+  </ul>
+  </div>
 </main>
