@@ -19,7 +19,7 @@ exports.searchInvoices = async function(req, res) {
 
 exports.Index = async function (request, response) {
   console.log("loading invoices from controller");
-  let invoices = await _invoiceOps.getAllInvoices();
+  let invoices = await _invoiceOps.getAllInvoice();
   if (invoices) {
     response.render("invoices", {
       title: "Billing - Invoices",
@@ -79,4 +79,28 @@ exports.CreateInvoice = async function (request, response) {
     // company: request.body.company,
     // email: request.body.email
   })
+};
+
+// Handle invoice form GET request
+exports.DeleteInvoiceById = async function (request, response) {
+  const invoiceId = request.params.id;
+  console.log(`deleting single invoice by id ${invoiceId}`);
+  let deletedInvoice = await _invoiceOps.deleteInvoiceById(invoiceId);
+  let invoices = await _invoiceOps.getAllInvoices();
+
+  if (deletedInvoice) {
+    response.render("invoices", {
+      title: "Billing - Clients",
+      invoices: invoices,
+      errorMessage: "",
+      layout: "layouts/full-width"
+    });
+  } else {
+    response.render("invoices", {
+      title: "Billing - Clients",
+      invoices: invoices,
+      errorMessage: "Error.  Unable to Delete",
+      layout: "layouts/full-width"
+    });
+  }
 };

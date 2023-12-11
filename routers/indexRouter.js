@@ -6,9 +6,9 @@ indexRouter.get("/", async (req, res) => {
     res.render("home", {title: "Home"});
 });
 
-indexRouter.get("/invoices", async(req, res) => {
-    res.render("invoices", {title: "Invoices"});
-})
+// indexRouter.get("/invoices", async(req, res) => {
+//     res.render("invoices", {title: "Invoices"});
+// })
 
 
 module.exports = indexRouter;

@@ -1,22 +1,22 @@
 <h1 id="pageHeading">New Client</h1>
 <div id="form-container">
-    <form action="/profiles/create" method="POST">   
+    <form action="/invoices/create" method="POST">   
         <div>
-            <label for="name">Name:</label>
-            <input id="name" name="name" type="text" value=<%= profile.name ? profile.name : '' %> >
+            <label for="issueDate">issueDate:</label>
+            <input id="issueDate" name="issueDate" type="date" value=<%= invoice.issueDate ? invoice.issueDate : '' %> >
         </div>
         <div>
-            <label for="code">Code:</label>
-            <input id="code" name="code" type="text" value=<%= profile.code ? profile.code : '' %> >
+            <label for="dueDate">dueDate:</label>
+            <input id="dueDate" name="dueDate" type="date" value=<%= invoice.dueDate ? invoice.dueDate : '' %> >
+        </div>
+        <!-- <div>
+            <label for="payee">payee:</label>
+            <input id="payee" name="payee" type="text" value=<%= invoice.payee.name ? invoice.payee.name: '' %> >
         </div>
         <div>
-            <label for="company">Company:</label>
-            <input id="company" name="company" type="text" value=<%= profile.company ? profile.company : '' %> >
-        </div>
-        <div>
-            <label for="email">Email:</label>
-            <input id="email" name="email" type="text" value=<%= profile.email ? profile.email : '' %> >
-        </div>
+            <label for="products">products:</label>
+            <input id="products" name="products" type="text" value=<%= invoice.products.productName ? invoice.products.productName : '' %> >
+        </div> -->
         <button type="submit" value="Submit" class="btn btn-success">Submit</button>
     </form>
 </div>

@@ -16,7 +16,7 @@ invoicesRouter.get("/create", InvoiceController.Create);
 invoicesRouter.post("/create", InvoiceController.CreateInvoice);
 
 invoicesRouter.get("/:id", InvoiceController.Detail);
-invoicesRouter.get("/delete/:id", InvoiceController.DeleteInvoiceById);
+//invoicesRouter.get("/delete/:id", InvoiceController.DeleteInvoiceById);
 // invoicesRouter.get("/search", InvoiceController.SearchProducts);
 
 

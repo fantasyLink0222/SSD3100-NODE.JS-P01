@@ -19,20 +19,6 @@ exports.searchProducts = async function (req, res) {
   }
 };
 
-//for client in the ClientController later
-// exports.SearchClients =  async function(req, res) {
-//   const searchQuery = req.query.q;
-
-//   try {
-//       const clients = await Client.find({
-//           clientName: { $regex: searchQuery, $options: "i" }
-//       });
-
-//       res.render("clients", { clients }); // Render clients.ejs with filtered clients
-//   } catch (error) {
-//       res.status(500).json({ error: error.message });
-//   }
-// }
 
 exports.Products = async function (request, response) {
   console.log("loading products from controller");
