@@ -1,8 +1,12 @@
 const Invoice = require("../models/Invoice");
 const InvoiceOps = require("../data/InvoiceOps");
-
-
+const Product = require("../models/Product.js");
+const Profile = require("../models/Profile.js");
+const ProfileOps = require("../data/ProfileOps");
+const ProductOps = require("../data/ProductOps.js");
+const _profileOps = new ProfileOps();
 const _invoiceOps = new InvoiceOps();
+const _productOps = new ProductOps();
 
 exports.searchInvoices = async function(req, res) {
   const searchQuery = req.query.q;
@@ -63,22 +67,37 @@ exports.Detail = async function (request, response) {
 
 // Handle invoice form GET request
 exports.Create = async function (request, response) {
-  response.render("invoice-create", {
+  let profiles = await _profileOps.getAllProfiles();
+  let products = await _productOps.getAllProducts();
+  response.render("invoice-form", {
     title: "Create Invoice",
     errorMessage: "",
     invoice: {},
+    profiles:profiles,
+    products:products,
     layout: "layouts/full-width"
   });
 };
 
 // Handle invoice form GET request
 exports.CreateInvoice = async function (request, response) {
+  let profiles = await _profileOps.getAllProfiles();
+  let products = await _productOps.getAllProducts();
+  console.log("rb", request.body);
+  
+  let profileId = request.body.profile_id;
+  console.log("profileId", profileId)
+  let profileObj = await _profileOps.getProfileById(profileId);
+  let productObj = await _productOps.getProductById(productId)
+
   // instantiate a new Invoice Object populated with form data
   let tempInvoiceObj = new Invoice({
     invoiceNumber: request.body.invoiceNumber,
     issueDate: request.body.issueDate,
     dueDate: request.body.dueDate,
-    np
+    profile: profileObj,
+    product: productObj
+    
   });
 
 let responseObj = await _invoiceOps.createInvoice(tempInvoiceObj);
@@ -89,7 +108,10 @@ let responseObj = await _invoiceOps.createInvoice(tempInvoiceObj);
     console.log(responseObj.obj);
     response.render("invoice", {
       title: "Express bill - " + responseObj.obj.invoiceNumber,
+      
       invoices: invoices,
+      profiles:profiles,
+      products: products,
       invoiceId: responseObj.obj._id.valueOf(),
       layout: "./layouts/sidebar",
     });
@@ -97,7 +119,7 @@ let responseObj = await _invoiceOps.createInvoice(tempInvoiceObj);
   // There are errors. Show form the again with an error message.
   else {
     console.log("An error occured. Item not created.");
-    response.render("invoice-create", {
+    response.render("invoice-form", {
       title: "Create invoice",
       invoice: responseObj.obj,
       errorMessage: responseObj.errorMsg,
