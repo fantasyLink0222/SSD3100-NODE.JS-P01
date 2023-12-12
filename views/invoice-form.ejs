@@ -26,8 +26,8 @@
             <label for="dueDate">dueDate:</label>
             <input id="dueDate" name="dueDate" type="date" value=<%= invoice.dueDate ? invoice.dueDate : '' %> >
         </div>
-       <input type="hidden" name="productIds[]" value="0">
-       <input type="hidden" name="productQuantities[]" value="0">
+       <input type="hidden" name="productIds" value="0">
+       <!-- //<input type="hidden" name="productQuantities" value="0"> -->
         <div class ="input-wrapper">
             <label for="product">product purchased:</label>
             <select id="product" name="purchasedProduct"  >
@@ -37,7 +37,7 @@
                 <% }); %>
             </select>
             <label for="productQuantities">Quantity</label>
-            <input type="number" name="productQuantities[]" id="product-count" value="1">
+            <input type="number" name="productQuantities" id="product-count" value="1">
         </div>
 
 

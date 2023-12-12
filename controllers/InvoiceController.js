@@ -84,7 +84,7 @@ exports.CreateInvoice = async function (request, response) {
   let profiles = await _profileOps.getAllProfiles();
   let products = await _productOps.getAllProducts();
   console.log("rb", request.body);
-  
+  let productQTY = request.body.productQuantities;
   let profileId = request.body.selectedProfile;
   let productId = request.body.purchasedProduct;
   console.log("profileId", profileId)
@@ -97,8 +97,8 @@ exports.CreateInvoice = async function (request, response) {
     issueDate: request.body.issueDate,
     dueDate: request.body.dueDate,
     profile: profileObj,
-    product: productObj
-    
+    product: productObj,
+    totalDue:(productObj.unitCost)*productQTY,
   });
 
 let responseObj = await _invoiceOps.createInvoice(tempInvoiceObj);
