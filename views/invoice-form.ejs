@@ -4,10 +4,10 @@
         
         <div>
             <label for=" profile">customer:</label>
-            <select id="profile" name="profile"  >
+            <select id="selectedProfile" name="selectedProfile"  >
                 <option >choose the customer</option>
                 <% profiles.forEach(profile => { %>
-                    <option value="<%= profile.name %>"><%= profile.name %></option>
+                    <option value="<%= profile._id %>"><%= profile.name %></option>
                 <% }); %>
             </select>
         </div>
@@ -30,10 +30,10 @@
        <input type="hidden" name="productQuantities[]" value="0">
         <div class ="input-wrapper">
             <label for="product">product purchased:</label>
-            <select id="product" name="product"  >
+            <select id="product" name="purchasedProduct"  >
                 <option value ="">choose the customer</option>
                 <% products.forEach(product => { %>
-                    <option value="<%= product.productName %>"><%= product.productName%></option>
+                    <option value="<%= product_id=product._id %>"><%= product.productName%></option>
                 <% }); %>
             </select>
             <label for="productQuantities">Quantity</label>

@@ -85,7 +85,8 @@ exports.CreateInvoice = async function (request, response) {
   let products = await _productOps.getAllProducts();
   console.log("rb", request.body);
   
-  let profileId = request.body.profile_id;
+  let profileId = request.body.selectedProfile;
+  let productId = request.body.purchasedProduct;
   console.log("profileId", profileId)
   let profileObj = await _profileOps.getProfileById(profileId);
   let productObj = await _productOps.getProductById(productId)
@@ -104,7 +105,7 @@ let responseObj = await _invoiceOps.createInvoice(tempInvoiceObj);
 
   // if no errors, save was successful
   if (responseObj.errorMsg == "") {
-    let invoices = await _invoiceOps.getAllInvoice();
+    let invoices = await _invoiceOps.getAllInvoices();
     console.log(responseObj.obj);
     response.render("invoice", {
       title: "Express bill - " + responseObj.obj.invoiceNumber,
@@ -122,6 +123,8 @@ let responseObj = await _invoiceOps.createInvoice(tempInvoiceObj);
     response.render("invoice-form", {
       title: "Create invoice",
       invoice: responseObj.obj,
+      profiles:profiles,
+      products: products,
       errorMessage: responseObj.errorMsg,
     });
   }
