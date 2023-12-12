@@ -3,10 +3,10 @@ const Invoice = require("../models/Invoice.js");
 class InvoiceOps {
   InvoiceOps() {}
 
-  async getAllInvoice() {
+  async getAllInvoices() {
     try{
       console.log("fetching all invoices");
-    const invoices = await Invoice.find({}).sort({invoiceName: 1});
+    const invoices = await Invoice.find({});
     return invoices;
     } catch (error){
       console.error("Error fetching invoices: ", error);

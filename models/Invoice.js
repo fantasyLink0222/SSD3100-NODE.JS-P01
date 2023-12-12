@@ -1,16 +1,19 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const invoiceSchema = new Schema({
+    invoiceNumber: {
+        type: String ,
+        required:true,
+    },
     issueDate: {
         type: Date,
-        required: true,
+        default: Date.now,
     },
     dueDate: {
         type: Date,
-        required: true,
+      
     },
-    products:[{ type: Schema.Types.ObjectId, ref: "Product" }],
-    payee:[{ type: Schema.Types.ObjectId, ref:"Profile"}],
+
 },
     {collection: "invoices"}
 );

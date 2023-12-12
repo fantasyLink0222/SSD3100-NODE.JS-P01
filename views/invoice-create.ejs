@@ -1,6 +1,15 @@
-<h1 id="pageHeading">New Client</h1>
+<h1 id="pageHeading">New invoice</h1>
 <div id="form-container">
     <form action="/invoices/create" method="POST">   
+        
+        
+        
+        <div>
+            <label for="invoiceNumber">invoiceNumber:</label>
+            <input id="invoiceNumber" name="invoiceNumber" type="text" value=<%= invoice.invoiceNumber ? invoice.invoiceNumber : '' %> >
+        </div>
+ 
+        
         <div>
             <label for="issueDate">issueDate:</label>
             <input id="issueDate" name="issueDate" type="date" value=<%= invoice.issueDate ? invoice.issueDate : '' %> >
@@ -9,14 +18,9 @@
             <label for="dueDate">dueDate:</label>
             <input id="dueDate" name="dueDate" type="date" value=<%= invoice.dueDate ? invoice.dueDate : '' %> >
         </div>
-        <!-- <div>
-            <label for="payee">payee:</label>
-            <input id="payee" name="payee" type="text" value=<%= invoice.payee.name ? invoice.payee.name: '' %> >
-        </div>
-        <div>
-            <label for="products">products:</label>
-            <input id="products" name="products" type="text" value=<%= invoice.products.productName ? invoice.products.productName : '' %> >
-        </div> -->
+ 
+        
+        
         <button type="submit" value="Submit" class="btn btn-success">Submit</button>
     </form>
 </div>

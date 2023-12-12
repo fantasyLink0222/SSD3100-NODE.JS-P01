@@ -1,5 +1,6 @@
-const Invoice = require("../models/Invoice.js");
+const Invoice = require("../models/Invoice");
 const InvoiceOps = require("../data/InvoiceOps");
+
 
 const _invoiceOps = new InvoiceOps();
 
@@ -8,7 +9,7 @@ exports.searchInvoices = async function(req, res) {
 
   try {
     const invoices = await _invoiceOps.find({
-      name: { $regex: searchQuery, $options: "i" }
+      invoiceNumber: { $regex: searchQuery, $options: "i" }
     });
 
     res.render("invoices", { invoices: invoices, layout: "layouts/full-width" });
@@ -19,7 +20,7 @@ exports.searchInvoices = async function(req, res) {
 
 exports.Index = async function (request, response) {
   console.log("loading invoices from controller");
-  let invoices = await _invoiceOps.getAllInvoice();
+  let invoices = await _invoiceOps.getAllInvoices();
   if (invoices) {
     response.render("invoices", {
       title: "Billing - Invoices",
@@ -74,11 +75,34 @@ exports.Create = async function (request, response) {
 exports.CreateInvoice = async function (request, response) {
   // instantiate a new Invoice Object populated with form data
   let tempInvoiceObj = new Invoice({
-    // name: request.body.name,
-    // code: request.body.code,
-    // company: request.body.company,
-    // email: request.body.email
-  })
+    invoiceNumber: request.body.invoiceNumber,
+    issueDate: request.body.issueDate,
+    dueDate: request.body.dueDate,
+    np
+  });
+
+let responseObj = await _invoiceOps.createInvoice(tempInvoiceObj);
+
+  // if no errors, save was successful
+  if (responseObj.errorMsg == "") {
+    let invoices = await _invoiceOps.getAllInvoice();
+    console.log(responseObj.obj);
+    response.render("invoice", {
+      title: "Express bill - " + responseObj.obj.invoiceNumber,
+      invoices: invoices,
+      invoiceId: responseObj.obj._id.valueOf(),
+      layout: "./layouts/sidebar",
+    });
+  }
+  // There are errors. Show form the again with an error message.
+  else {
+    console.log("An error occured. Item not created.");
+    response.render("invoice-create", {
+      title: "Create invoice",
+      invoice: responseObj.obj,
+      errorMessage: responseObj.errorMsg,
+    });
+  }
 };
 
 // Handle invoice form GET request

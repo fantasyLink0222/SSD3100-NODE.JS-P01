@@ -38,6 +38,8 @@ app.set("views", path.join(__dirname, "views"));
 //set view engine to ejs
 app.set("view engine", "ejs");
 
+
+
 //import express ejs layouts
 const expressLayouts = require("express-ejs-layouts");
 //use ejs layout
