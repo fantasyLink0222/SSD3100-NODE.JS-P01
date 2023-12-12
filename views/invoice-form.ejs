@@ -26,23 +26,24 @@
             <label for="dueDate">dueDate:</label>
             <input id="dueDate" name="dueDate" type="date" value=<%= invoice.dueDate ? invoice.dueDate : '' %> >
         </div>
-       <input type="hidden" name="productIds" value="0">
-       <!-- //<input type="hidden" name="productQuantities" value="0"> -->
-        <div class ="input-wrapper">
-            <label for="product">product purchased:</label>
-            <select id="product" name="purchasedProduct"  >
-                <option value ="">choose the customer</option>
-                <% products.forEach(product => { %>
-                    <option value="<%= product_id=product._id %>"><%= product.productName%></option>
-                <% }); %>
-            </select>
-            <label for="productQuantities">Quantity</label>
-            <input type="number" name="productQuantities" id="product-count" value="1">
+        <div id="line-items">
+            <!-- Single line item -->
+            <div class="line-item">
+                <select name="purchasedProduct[]">
+                    <option value=""></option>
+                    <% products.forEach(product => {%>
+                     <option value="<%= product._id%>"><%=product.productName%></option>
+                    <%});%>
+                </select>
+                <input type="text" name="quantity[]" placeholder="Quantity">
+                <!-- More fields as needed -->
+            </div>
         </div>
-
-
+        <button type="button" id="add-line-item">+ Add Another Line Item</button>
+      
         
         <button type="submit" value="Submit" class="btn btn-success">Submit</button>
     </form>
 </div>
 <%= errorMessage %>
+<SCript src="/public/scripts/invoice-builder.js"></SCript>

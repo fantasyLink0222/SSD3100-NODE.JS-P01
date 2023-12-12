@@ -15,7 +15,7 @@
       <% invoices.forEach(invoice => { %>
           <% if (invoice && invoice._id) { %>
               <li class="invoices-list">
-                  <a href="/invoices/<%= invoice._id %>"><%= "Inv No.: "+invoice.invoiceNumber %> </a> 
+                  <a href="/invoices/<%= invoice._id %>"><%= "Inv No.: "+invoice.invoiceNumber%> </a> 
                   <a href="/invoices/<%= invoice._id%>/delete"><button id="invDelBtn" class="btn btn-danger">Delete</button></a>
               </li>
           <% } %>

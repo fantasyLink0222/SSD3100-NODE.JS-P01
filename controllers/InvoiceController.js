@@ -86,7 +86,7 @@ exports.CreateInvoice = async function (request, response) {
   console.log("rb", request.body);
   let productQTY = request.body.productQuantities;
   let profileId = request.body.selectedProfile;
-  let productId = request.body.purchasedProduct;
+  // let productId = request.body.(purchasedProduct);
   console.log("profileId", profileId)
   let profileObj = await _profileOps.getProfileById(profileId);
   let productObj = await _productOps.getProductById(productId)
