@@ -38,7 +38,13 @@ app.set("views", path.join(__dirname, "views"));
 //set view engine to ejs
 app.set("view engine", "ejs");
 
+// app.get('/invoices/create', async (req, res) => {
+//   // Example: Fetch clients from a database
+//   const profiles = await getprofilesFromDatabase(); // Replace with your actual data fetching logic
 
+//   // Pass the clients data to the EJS template
+//   res.render('./views/invoice-create', { profiles: profiles });
+// });
 
 //import express ejs layouts
 const expressLayouts = require("express-ejs-layouts");
