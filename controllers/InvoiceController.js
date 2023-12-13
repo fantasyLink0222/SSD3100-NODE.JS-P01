@@ -82,23 +82,68 @@ exports.Create = async function (request, response) {
 // Handle invoice form GET request
 exports.CreateInvoice = async function (request, response) {
   let profiles = await _profileOps.getAllProfiles();
-  let products = await _productOps.getAllProducts();
+  //let products = await _productOps.getAllProducts();
   console.log("rb", request.body);
-  let productQTY = request.body.productQuantities;
+  //let productQTY = request.body.productQuantities;
   let profileId = request.body.selectedProfile;
-  // let productId = request.body.(purchasedProduct);
-  console.log("profileId", profileId)
-  let profileObj = await _profileOps.getProfileById(profileId);
-  let productObj = await _productOps.getProductById(productId)
 
+  let profileObj = await _profileOps.getProfileById(profileId);
+
+
+
+  const productIds =request.body['purchasedProduct[]'];
+  const quantities = request.body['quantity[]'];
+
+  if (!Array.isArray(productIds)) {
+    productIds = [productIds];
+   }
+   if (!Array.isArray(quantities)) {
+    quantities = [quantities];
+   } 
+   productIds.forEach((product, index) => {
+    const quantity = quantities[index];
+    console.log(`Product: ${product}, Quantity: ${quantity}`);
+  
+  });
+
+  productobjs=[];
+  productTotalAmt = 0;
+
+
+  if (productIds&&quantities) {
+    for (i=0;i<productIds.length;i++){
+      let productObj = await _productOps.getProductById(productIds[i]);
+      console.log("productObj",productObj);
+      let newProductObj = { 
+        ...productObj.toObject(), 
+        QTY: quantities[i]
+      };
+  
+      console.log("newProductObj", newProductObj);
+      console.log('productObj.QTY',productObj.QTY);
+
+      productobjs.push(newProductObj);
+            
+  }};
+  if (productobjs.length>0){
+
+    for (i=0;i<productobjs.length;i++){
+      productTotalAmt += productobjs[i].unitCost*productobjs[i].QTY
+    }
+     
+  }
+  
+      
+
+  
   // instantiate a new Invoice Object populated with form data
   let tempInvoiceObj = new Invoice({
     invoiceNumber: request.body.invoiceNumber,
     issueDate: request.body.issueDate,
     dueDate: request.body.dueDate,
     profile: profileObj,
-    product: productObj,
-    totalDue:(productObj.unitCost)*productQTY,
+    products: productobjs,
+    totalDue:productTotalAmt,
   });
 
 let responseObj = await _invoiceOps.createInvoice(tempInvoiceObj);
@@ -107,14 +152,14 @@ let responseObj = await _invoiceOps.createInvoice(tempInvoiceObj);
   if (responseObj.errorMsg == "") {
     let invoices = await _invoiceOps.getAllInvoices();
     console.log(responseObj.obj);
-    response.render("invoice", {
+    response.render("invoices", {
       title: "Express bill - " + responseObj.obj.invoiceNumber,
       
       invoices: invoices,
       profiles:profiles,
-      products: products,
+      products: productobjs,
       invoiceId: responseObj.obj._id.valueOf(),
-      layout: "./layouts/sidebar",
+      layout: "layouts/full-width",
     });
   }
   // There are errors. Show form the again with an error message.
@@ -124,7 +169,7 @@ let responseObj = await _invoiceOps.createInvoice(tempInvoiceObj);
       title: "Create invoice",
       invoice: responseObj.obj,
       profiles:profiles,
-      products: products,
+      products: productobjs,
       errorMessage: responseObj.errorMsg,
     });
   }

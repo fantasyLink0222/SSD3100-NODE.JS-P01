@@ -3,7 +3,7 @@
     <form action="/invoices/create" method="POST">   
         
         <div>
-            <label for=" profile">customer:</label>
+            <label for="selectedProfile">customer:</label>
             <select id="selectedProfile" name="selectedProfile"  >
                 <option >choose the customer</option>
                 <% profiles.forEach(profile => { %>
@@ -20,11 +20,11 @@
         
         <div>
             <label for="issueDate">issueDate:</label>
-            <input id="issueDate" name="issueDate" type="date" value=<%= invoice.issueDate ? invoice.issueDate : '' %> >
+            <input id="issueDate"  name="issueDate" type="date"  value="<%=invoice.issueDate ? invoice.issueDate.toISOString().split('T')[0]: '' %>"/>
         </div>
         <div>
             <label for="dueDate">dueDate:</label>
-            <input id="dueDate" name="dueDate" type="date" value=<%= invoice.dueDate ? invoice.dueDate : '' %> >
+            <input id="dueDate" name="dueDate" type="date" value="<%=invoice.dueDate ? invoice.dueDate.toISOString().split('T')[0] : '' %>"/>
         </div>
         <div id="line-items">
             <!-- Single line item -->
@@ -35,7 +35,7 @@
                      <option value="<%= product._id%>"><%=product.productName%></option>
                     <%});%>
                 </select>
-                <input type="text" name="quantity[]" placeholder="Quantity">
+                <input type="number" name="quantity[]" placeholder="Quantity">
                 <!-- More fields as needed -->
             </div>
         </div>
@@ -46,4 +46,19 @@
     </form>
 </div>
 <%= errorMessage %>
-<SCript src="/public/scripts/invoice-builder.js"></SCript>
+<script>
+    document.getElementById('add-line-item').addEventListener('click', function() {
+    // Clone the first .line-item
+    var original = document.querySelector('.line-item');
+    var clone = original.cloneNode(true);
+
+    // Optionally reset the value of the inputs in the clone
+    clone.querySelector('select[name="purchasedProduct[]"]').selectedIndex = 0;
+    clone.querySelector('input[name="quantity[]"]').value = '';
+    console.log("add rows", clone)
+    
+    // Append the clone to the #line-items container
+    document.getElementById('line-items').appendChild(clone);
+});
+    
+</script>
