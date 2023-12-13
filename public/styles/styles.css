@@ -269,3 +269,98 @@ input {
   justify-content: center;
 }
 /*end of invoice styling */
+
+/* invoice styling - chuan*/
+body {
+  display: flex;
+  align-items: center;
+  justify-content:flex-start;
+  flex-direction: column;
+  height: 750px;
+
+}
+main{
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+}
+
+.flexbox-header, .flexbox-summary, .flexbox-payment {
+  display: flex;
+  justify-content: space-between;
+  
+}
+
+.logo-company {
+  display: flex;
+  align-items: center;
+}
+
+.logo-company img {
+  width: 120px;
+  height: 120px;
+  margin-right: 10px;
+}
+
+.flexbox-invoice-info{
+  display: flex;
+  flex-direction: row;
+
+}
+h5{
+  display: flex;
+  justify-content: center;
+  align-items:end;
+
+}
+.inner{
+  margin-top: 10%;
+  display:flex;
+  width: 120px;
+  height: 120px;
+ 
+  border: 1px solid black;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content:center;
+  flex-direction: column;
+}
+.flexbox-billable {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  width: 95%;
+  padding: 5px;
+  /* border: 2px solid black; */
+}
+
+.billable-item {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+.billable-quantity {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+.billable-rate {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+.billable-Amount {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.flexbox-footer {
+  margin-top: auto;
+  align-self: flex-end;
+}

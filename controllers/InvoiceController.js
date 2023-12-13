@@ -49,18 +49,19 @@ exports.Detail = async function (request, response) {
   let invoices = await _invoiceOps.getAllInvoices();
 
   if (invoice) {
-    response.render("invoiceDetails", {
+    response.render("invoiceDetail", {
       title: "Express Yourself - " + invoice._id,
       invoices: invoices,
       invoiceId: request.params.id,
       invoice: invoice,
-      layout: "layouts/full-width"
+      layout: false ,
+      applySpecialCSS: true 
     });
   } else {
     response.render("invoices", {
       title: "Billing - Invoices",
       invoices: [],
-      layout: "layouts/full-width"
+    
     });
   }
 };

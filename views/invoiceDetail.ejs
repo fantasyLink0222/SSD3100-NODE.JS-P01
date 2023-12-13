@@ -4,91 +4,96 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chuan He - A04</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" type="text/css" href="/styles/invoice-style.css">
 </head>
+<% for (let i = 0; i < invoices.length; i++) { %> 
+    <% if (invoices[i].id === invoiceId) { %>
 <body>
     <main>
      <header class="flexbox-header">
         <div class="logo-company">
-            <img src="images/logo.png" alt="Company Logo">
+            <img src="/images/logo.png" alt="Company Logo">
             <div>
-                <p>Example Co.
+                <p>Kai & Chuan Company
                 <br>123 Example Street<br>suite 101<br> Eaxmpleton.BC<br>A1A 1A1
-                <br>owner@Exampleco.com</p>
+                <br>ac@kaichuan.com</p>
             </div>
         </div>
         <div class="invoice-number">
-            <p>Invoice 12345</p>
+            <p>Invoice No.  <%= invoices[i].invoiceNumber %></p>
         </div>
      </header>
 
      <section class="flexbox-summary">
         <div class="client-info">
             <h3>Bill To:</h3>
-            <p>Clinet Name
-                <br>Client company name
-                <br>123 example Street
-                <br>suite 123
-                <br>demo Ville,BC
-                <br>V1V 5E5
-                <br>owner@client-companyname.com
+            <p> <%= invoices[i].profile.name %>
+                <br><%= invoices[i].profile.company %>
+                <br>address is unknown
+                <br>email: <%= invoices[i].profile.email %>
                </p>
         </div>
         <div class="flexbox-invoice-info">
             <div class="inner">
-                <h5>DATE</h5>
-                <p>2023/10/21</p>
+                <h5>ISSUE DATE</h5>
+                <p><%= new Date(invoices[i].issueDate).toISOString().split('T')[0] %></p>
             </div>
             <div class="inner">
                 <h5 >PLEASE PAY</h5>
-                <p>CAD 8000.00</p>
+                <p>CAD <%= invoices[i].totalDue %></p>
             </div>
             <div class="inner">
                 <h5>DUE DATE</h5>
-                <p>2023/10/21</p>
+                <p><%= new Date(invoices[i].dueDate).toISOString().split('T')[0] %></p>
             </div>
            
         </div>
      </section>
 
      <section class="flexbox-billable">
-   
-        <div class="billable-item">
-            <div>Item</div>
-            <div>Cat1: Product1</div>
-            <div>Cat2: Product1</div>
+        <div>
+            <div>
+              <h2 class="flex-item">ITEM</h2>
+              <% for (let i=0;i<invoice.products.length;i++) {%>
+                <p><%=invoice.products[i].productName%></p>
+              <%}%>
+            </div>
+                 
+            <div class="flex-item">
+              <h2 class="heading">QTY</h2>
+              <% for (let i=0;i<invoice.products.length;i++) {%>
+                <p><%=invoice.products[i].QTY%></p>
+              <%}%>
+            </div>
+            <div class="flex-item">
+              <h2 class="heading">RATE</h2>
+              <% for (let i=0;i<invoice.products.length;i++) {%>
+                <p><%=invoice.products[i].unitCost%></p>
+              <%}%>
+            </div>
+            <div class="flex-item justify-right">
+              <h2 class="heading">AMOUNT</h2>
+              <% for (let i=0;i<invoice.products.length;i++) {%>
+                <p><%=(invoice.products[i].unitCost*invoice.products[i].QTY).toFixed(2)%></p>
+              <%}%>
+            </div>
+         
         </div>
-        <div class ="billable-quantity">
-              <div>Quantity</div>
-              <div>1</div>
-              <div>100</div>
-              
-        </div>
-        <div class ="billable-rate">
-              <div>Rate</div>
-              <div>100.00</div>
-              <div>900.00</div>
-              
-        </div>
-        <div class ="billable-Amount">
-              <div>Amount</div>
-              <div>100.00</div>
-              <div>9000.00</div>
-        </div>
-      
      </section>
 
      <section class="flexbox-payment">
         <div class="payment-instructions">
             <p>Please remit payment via Interac E-transfer to</p>
-            <p>owner@Exampleco.com</p>
+            <p>ac@kaichuan.com</p>
         </div>
-        <div class="total-due"><strong>Total Due:</strong> $9100.00</div>
+        <div class="total-due"><strong>Total Due:</strong> <%= invoices[i].totalDue %></div>
      </section>
      <footer class="flexbox-footer">
-        <div>© YYYY Company Name</div>
+        <div>© 2023 Kai & Chuan Company</div>
      </footer>
     </main>
  
 </body>
+<% } %> 
+<% } %> 
 </html>
