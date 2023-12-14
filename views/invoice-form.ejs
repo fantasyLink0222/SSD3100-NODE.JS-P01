@@ -26,10 +26,9 @@
             <label for="dueDate">Due Date:</label>
             <input id="dueDate" name="dueDate" type="date" value="<%=invoice.dueDate ? invoice.dueDate.toISOString().split('T')[0] : '' %>"/>
         </div>
-        <label for="line-items">Product:</label>
         <div id="line-items">
-           
             <div class="line-item">
+                <label for="line-items">Product:</label>
                 <select  name="purchasedProduct[]">
                     <option value=""></option>
                     <% products.forEach(product => {%>
