@@ -3,96 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chuan He - A04</title>
     <link rel="stylesheet" type="text/css" href="/styles/invoice-style.css">
+    <title>Billing - Invoice</title>
 </head>
 <% for (let i = 0; i < invoices.length; i++) { %> 
     <% if (invoices[i].id === invoiceId) { %>
 <body>
-    <main>
-     <header class="flexbox-header">
-        <div class="logo-company">
-            <img src="/images/logo.png" alt="Company Logo">
-            <div>
-                <p>Kai & Chuan Company
-                <br>123 Example Street<br>suite 101<br> Eaxmpleton.BC<br>A1A 1A1
-                <br>ac@kaichuan.com</p>
-            </div>
-        </div>
-        <div class="invoice-number">
-            <p>Invoice No.  <%= invoices[i].invoiceNumber %></p>
-        </div>
-     </header>
+  <main class="grid-container">
+    <header>
+      <section class="company-info-logo">
+          <img class="logo-image" src="/images/logo_img.svg" alt="logo">
+          <div class="company-info">
+              <p>Peaches Co.</p>
+              <p>123 Peaches Street</p>
+              <p>Suite 101</p>
+              <p>Peaches, BC</p>
+              <p>A1A A1A</p>
+              <p>peaches@peaches.com</p>
+          </div>
+      </section>
+      <div class="invoice-num">
+        <p>Invoice No.  <%= invoices[i].invoiceNumber %></p>
+      </div>
+  </header>
+  <section class="client-section">
+    <div class="client-info">
+      <h2>
+        BILL TO:
+      </h2>
+      <p><%= invoices[i].profile.name %></p>
+      <p><%= invoices[i].profile.company %></p>
+      <p>123 Some Street</p>
+      <p>Suite 101</p>
+      <p>Peaches, BC</p>
+      <p>A1A A1A</p>
+      <p><%= invoices[i].profile.email %></p>
+    </div>
+    <div class="boxed-info">
+      <div class="boxed-date">
+        <span>DATE</span>
+        <p><%= new Date(invoices[i].issueDate).toISOString().split('T')[0] %></p>
+      </div>
+      <div class="boxed-pls-pay">
+        <span>PLEASE PAY</span>
+        <p>CAD <%= invoices[i].totalDue %></p>
+      </div>
+      <div class="boxed-due-date">
+        <span>DUE DATE</span>
+        <p><%= new Date(invoices[i].dueDate).toISOString().split('T')[0] %></p>
+      </div>
+    </div>
+  </section>
 
-     <section class="flexbox-summary">
-        <div class="client-info">
-            <h3>Bill To:</h3>
-            <p> <%= invoices[i].profile.name %>
-                <br><%= invoices[i].profile.company %>
-                <br>address is unknown
-                <br>email: <%= invoices[i].profile.email %>
-               </p>
-        </div>
-        <div class="flexbox-invoice-info">
-            <div class="inner">
-                <h5>ISSUE DATE</h5>
-                <p><%= new Date(invoices[i].issueDate).toISOString().split('T')[0] %></p>
-            </div>
-            <div class="inner">
-                <h5 >PLEASE PAY</h5>
-                <p>CAD <%= invoices[i].totalDue %></p>
-            </div>
-            <div class="inner">
-                <h5>DUE DATE</h5>
-                <p><%= new Date(invoices[i].dueDate).toISOString().split('T')[0] %></p>
-            </div>
-           
-        </div>
-     </section>
-
-     <div class="flexbox-billable">
-      
-            <div class="flex-item">
-              <h2 class="flex-item">ITEM</h2>
-              <% for (let i=0;i<invoice.products.length;i++) {%>
+  <section class="purchased-items">
+    <thead>
+      <table>
+        <tr class="purchase-tr">
+          <th class="item">ITEM</th>
+          <th class="qty">QTY</th>
+          <th>RATE</th>
+          <th class="amount">AMOUNT</th>
+      </tr>
+    </thead>
+      <tbody>
+          <tr>
+              <td class="item"><% for (let i=0;i<invoice.products.length;i++) {%>
                 <p><%=invoice.products[i].productName%></p>
-              <%}%>
-            </div>
-                 
-            <div class="flex-item">
-              <h2 class="heading">QTY</h2>
-              <% for (let i=0;i<invoice.products.length;i++) {%>
+              <%}%></td>
+              <td><% for (let i=0;i<invoice.products.length;i++) {%>
                 <p><%=invoice.products[i].QTY%></p>
-              <%}%>
-            </div>
-            <div class="flex-item">
-              <h2 class="heading">RATE</h2>
-              <% for (let i=0;i<invoice.products.length;i++) {%>
+              <%}%></td>
+              <td><% for (let i=0;i<invoice.products.length;i++) {%>
                 <p><%=invoice.products[i].unitCost%></p>
-              <%}%>
-            </div>
-            <div class="flex-item justify-right">
-              <h2 class="heading">AMOUNT</h2>
-              <% for (let i=0;i<invoice.products.length;i++) {%>
+              <%}%></td>
+              <td class="amount"><% for (let i=0;i<invoice.products.length;i++) {%>
                 <p><%=(invoice.products[i].unitCost*invoice.products[i].QTY).toFixed(2)%></p>
-              <%}%>
-            </div>
-         
-       
-        </div>
+              <%}%></td>
+          </tr>
 
-     <section class="flexbox-payment">
-        <div class="payment-instructions">
-            <p>Please remit payment via Interac E-transfer to</p>
-            <p>ac@kaichuan.com</p>
-        </div>
-        <div class="total-due"><strong>Total Due:</strong> <%= invoices[i].totalDue %></div>
-     </section>
-     <footer class="flexbox-footer">
-        <div>© 2023 Kai & Chuan Company</div>
-     </footer>
-    </main>
- 
+        </tbody>
+      </table>               
+  </section>
+  <section class="payment-section">
+    <div class="payment-info">
+      <p>Please remit payment via Interac E-transfer to </p>
+      <p>peaches@peaches.com</p>
+    </div>
+    <div class="payment-details">
+      <table class="table-payment">
+          <thead>
+
+              <tr>
+                <th><h2> TOTAL DUE:</h2></th>
+              </tr>
+
+          </thead>
+          <tbody>
+              <tr>
+                <td>CAD <%= invoices[i].totalDue.toFixed(2) %></td>
+              </tr>
+          </tbody>
+      </table>
+  </div>
+  </section>
+  <footer class="footer">
+      <p>&copy; 2023 - Kai,Chuan - Peaches Co.</p>
+  </footer>
+  </main>
 </body>
 <% } %> 
 <% } %> 
