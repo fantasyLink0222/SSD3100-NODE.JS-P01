@@ -99,8 +99,8 @@ exports.CreateInvoice = async function (request, response) {
 
 
 
-  const productIds =request.body['purchasedProduct[]'];
-  const quantities = request.body['quantity[]'];
+  let productIds =request.body['purchasedProduct[]'];
+  let quantities = request.body['quantity[]'];
 
   if (!Array.isArray(productIds)) {
     productIds = [productIds];
@@ -108,39 +108,31 @@ exports.CreateInvoice = async function (request, response) {
    if (!Array.isArray(quantities)) {
     quantities = [quantities];
    } 
-   productIds.forEach((product, index) => {
-    const quantity = quantities[index];
-    console.log(`Product: ${product}, Quantity: ${quantity}`);
-  
-  });
 
-  productobjs=[];
-  productTotalAmt = 0;
+  let productobjs=[];
+  let productTotalAmt = 0;
 
 
-  if (productIds&&quantities) {
-    for (i=0;i<productIds.length;i++){
+  if (productIds && quantities && productIds.length === quantities.length) {
+    for (let i = 0; i < productIds.length; i++) {
       let productObj = await _productOps.getProductById(productIds[i]);
-      console.log("productObj",productObj);
+      console.log("productObj", productObj);
+      
       let newProductObj = { 
         ...productObj.toObject(), 
-        QTY: quantities[i]
+        QTY: parseInt(quantities[i], 10) // Ensure quantity is an integer
       };
   
       console.log("newProductObj", newProductObj);
-      console.log('productObj.QTY',productObj.QTY);
-
       productobjs.push(newProductObj);
-            
-  }};
-  if (productobjs.length>0){
-
-    for (i=0;i<productobjs.length;i++){
-      productTotalAmt += productobjs[i].unitCost*productobjs[i].QTY
     }
-     
-  }
+  };
   
+  if (productobjs.length > 0) {
+    for (let i = 0; i < productobjs.length; i++) {
+      productTotalAmt += productobjs[i].unitCost * productobjs[i].QTY;
+    }
+  }
       
 
   

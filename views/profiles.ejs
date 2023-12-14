@@ -15,7 +15,7 @@
       <% const sortedProfiles = profiles.slice().sort((a, b) => a.name.localeCompare(b.name)); %>
       <% for (let i = 0; i < sortedProfiles.length; i++ ) { %>
         <li id="clientsNames">
-          <a href="/profiles/<%= sortedProfiles[i].id %>"><%= sortedProfiles[i].name+" - "+sortedProfiles[i].email, %></a>
+          <a href="/profiles/<%= sortedProfiles[i].id %>"><%= sortedProfiles[i].name+" - "+sortedProfiles[i].company, %></a>
           <a href="/profiles/<%= sortedProfiles[i].id %>/delete"><button id="cliDelBtn" class="btn btn-danger">Delete</button></a>
         </li>
       <% } %>
