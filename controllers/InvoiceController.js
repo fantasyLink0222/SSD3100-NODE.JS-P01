@@ -29,21 +29,52 @@ exports.searchInvoices = async function(req, res) {
   }
 };
 
+// exports.Index = async function (request, response) {
+//   console.log("loading invoices from controller");
+//   let invoices = await _invoiceOps.getAllInvoices();
+//   if (invoices) {
+//     response.render("invoices", {
+//       title: "Billing - Invoices",
+//       invoices: invoices,
+//       layout: "layouts/full-width",
+//       errorMessage: "",
+//     });
+//   } else {
+//     response.render("invoices", {
+//       title: "Billing - Invoices",
+//       invoices: [],
+//       errorMessage: "",
+//       layout: "layouts/full-width"
+//     });
+//   }
+// };
+
 exports.Index = async function (request, response) {
   console.log("loading invoices from controller");
-  let invoices = await _invoiceOps.getAllInvoices();
-  if (invoices) {
+  const page = parseInt(request.query.page, 10) || 1;
+  const limit = 10; // Set the limit or take it from request parameters or config
+  const skip = (page - 1) * limit;
+
+  try {
+    const result = await _invoiceOps.getAllInvoices(page, limit);
+    const invoices = result.invoices;
+    const total = result.total;
+    const totalPages = Math.ceil(total / limit); // Calculate the total number of pages
+
     response.render("invoices", {
       title: "Billing - Invoices",
       invoices: invoices,
+      currentPage: page,
+      totalPages: totalPages, // Pass the totalPages to the EJS template
       layout: "layouts/full-width",
-      errorMessage: "",
+      errorMessage: ""
     });
-  } else {
-    response.render("invoices", {
+  } catch (error) {
+    console.error("Error loading invoices:", error);
+    response.status(500).render("invoices", {
       title: "Billing - Invoices",
       invoices: [],
-      errorMessage: "",
+      errorMessage: "Error loading invoices.",
       layout: "layouts/full-width"
     });
   }

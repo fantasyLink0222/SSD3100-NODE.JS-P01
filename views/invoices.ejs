@@ -27,5 +27,14 @@
       </li>
       <% } %> <% }) %>
     </ul>
+    <nav>
+      <ul class="pagination">
+        <% for(let i = 1; i <= totalPages; i++) { %>
+          <li class="<%= i === currentPage ? 'active' : '' %>">
+            <a href="/invoices?page=<%= i %>"><%= i %></a>
+          </li>
+        <% } %>
+      </ul>
+    </nav>
   </div>
 </main>

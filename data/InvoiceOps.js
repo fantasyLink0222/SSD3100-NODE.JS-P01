@@ -3,16 +3,40 @@ const Invoice = require("../models/Invoice.js");
 class InvoiceOps {
   InvoiceOps() {}
 
-  async getAllInvoices() {
-    try{
-      console.log("fetching all invoices");
-    const invoices = await Invoice.find({});
-    return invoices;
-    } catch (error){
-      console.error("Error fetching invoices: ", error);
-      throw error;
+  // async getAllInvoices() {
+  //   try{
+  //     console.log("fetching all invoices");
+  //   const invoices = await Invoice.find({});
+  //   return invoices;
+  //   } catch (error){
+  //     console.error("Error fetching invoices: ", error);
+  //     throw error;
+  //   }
+  // }
+
+  async getAllInvoices(page = 1, limit = 10) {
+    try {
+        console.log("fetching all invoices");
+
+        
+        const skip = (page - 1) * limit;
+
+        const invoices = await Invoice.find({})
+                                      .skip(skip)
+                                      .limit(limit);
+
+     
+        const total = await Invoice.countDocuments();
+
+        return {
+            invoices: invoices,
+            total: total
+        };
+    } catch (error) {
+        console.error("Error fetching invoices: ", error);
+        throw error;
     }
-  }
+}
 
   async getInvoiceById(id) {
     try{

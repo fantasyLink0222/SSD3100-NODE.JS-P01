@@ -364,3 +364,14 @@ h5{
   margin-top: auto;
   align-self: flex-end;
 }
+
+#form-container-invoice {
+
+  display: flex;
+  flex-direction: row;
+  align-items:start ;
+  justify-content: center;
+  flex-wrap: wrap;
+
+
+}
