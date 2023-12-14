@@ -3,7 +3,7 @@
     <form action="/invoices/create" method="POST">   
         
         <div>
-            <label for="selectedProfile">customer:</label>
+            <label for="selectedProfile">Customer:</label>
             <select id="selectedProfile" name="selectedProfile"  >
                 <option >choose the customer</option>
                 <% profiles.forEach(profile => { %>
@@ -13,37 +13,37 @@
         </div>
         
         <div>
-            <label for="invoiceNumber">invoiceNumber:</label>
+            <label for="invoiceNumber">Invoice Number:</label>
             <input id="invoiceNumber" name="invoiceNumber" type="text" value=<%= invoice.invoiceNumber ? invoice.invoiceNumber : '' %> >
         </div>
  
         
         <div>
-            <label for="issueDate">issueDate:</label>
+            <label for="issueDate">Issued Date:</label>
             <input id="issueDate"  name="issueDate" type="date"  value="<%=invoice.issueDate ? invoice.issueDate.toISOString().split('T')[0]: '' %>"/>
         </div>
         <div>
-            <label for="dueDate">dueDate:</label>
+            <label for="dueDate">Due Date:</label>
             <input id="dueDate" name="dueDate" type="date" value="<%=invoice.dueDate ? invoice.dueDate.toISOString().split('T')[0] : '' %>"/>
         </div>
-        <label for="line-items"> Product list </label>
         <div id="line-items">
-           
             <div class="line-item">
+                <label for="line-items">Product:</label>
                 <select  name="purchasedProduct[]">
                     <option value=""></option>
                     <% products.forEach(product => {%>
                      <option  value="<%= product._id%>"><%=product.productName%></option>
                     <%});%>
                 </select>
-                <input type="number" name="quantity[]" placeholder="Quantity">
-                <!-- More fields as needed -->
+                <label for="quantity">Quantity:</label>
+                <input type="number" name="quantity[]" min="1" placeholder="0">
             </div>
         </div>
-        <button type="button" id="add-line-item">+ Add Another Line Item</button>
-      
-        
+        <button type="button" id="add-line-item" class="btn btn-primary">+ Add Another Line Item</button>
         <button type="submit" value="Submit" class="btn btn-success">Submit</button>
+        <a href="/invoices">
+            <button type="button" class="btn btn-danger">Cancel</button>
+          </a>
     </form>
 </div>
 <%= errorMessage %>
