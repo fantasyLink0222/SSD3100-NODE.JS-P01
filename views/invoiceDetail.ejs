@@ -74,10 +74,10 @@
                 <p><%=invoice.products[i].QTY%></p>
               <%}%></td>
               <td><% for (let i=0;i<invoice.products.length;i++) {%>
-                <p><%=invoice.products[i].unitCost%></p>
+                <p>$<%=invoice.products[i].unitCost.toFixed(2)%></p>
               <%}%></td>
               <td class="amount"><% for (let i=0;i<invoice.products.length;i++) {%>
-                <p><%=(invoice.products[i].unitCost*invoice.products[i].QTY).toFixed(2)%></p>
+                <p>$<%=(invoice.products[i].unitCost*invoice.products[i].QTY).toFixed(2)%></p>
               <%}%></td>
           </tr>
 
@@ -92,7 +92,6 @@
     <div class="payment-details">
       <table class="table-payment">
           <thead>
-
               <tr>
                 <th><h2> TOTAL DUE:</h2></th>
               </tr>
@@ -100,7 +99,7 @@
           </thead>
           <tbody>
               <tr>
-                <td>CAD <%= invoices[i].totalDue.toFixed(2) %></td>
+                <td>CAD $<%= invoices[i].totalDue.toFixed(2) %></td>
               </tr>
           </tbody>
       </table>
