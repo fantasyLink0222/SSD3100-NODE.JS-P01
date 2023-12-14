@@ -50,9 +50,9 @@
         </div>
      </section>
 
-     <section class="flexbox-billable">
-        <div>
-            <div>
+     <div class="flexbox-billable">
+      
+            <div class="flex-item">
               <h2 class="flex-item">ITEM</h2>
               <% for (let i=0;i<invoice.products.length;i++) {%>
                 <p><%=invoice.products[i].productName%></p>
@@ -78,8 +78,8 @@
               <%}%>
             </div>
          
+       
         </div>
-     </section>
 
      <section class="flexbox-payment">
         <div class="payment-instructions">

@@ -59,42 +59,21 @@ h5{
 .flexbox-billable {
     display: flex;
     justify-content: space-between;
-    flex-direction: column;
+    flex-direction: row;
   
     /* border: 2px solid black; */
 }
 .flex-item {
-    flex: 1; /* Adjust this value as needed to allocate space to each flex item */
+    
+    flex: 1; /*
+     Adjust this value as needed to allocate space to each flex item */
   }
   @media (max-width: 600px) {
     .flex-container {
       flex-direction: column;
     }
   }
-.billable-item {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    margin-bottom: 10px;
-}
-.billable-quantity {
-    display: flex;
-    justify-content: space-between;
-    flex-direction: column;
-    margin-bottom: 10px;
-}
-.billable-rate {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    margin-bottom: 10px;
-}
-.billable-Amount {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    margin-bottom: 10px;
-}
+
 
 .flexbox-footer {
     margin-top: auto;

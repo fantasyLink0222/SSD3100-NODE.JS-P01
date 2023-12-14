@@ -26,13 +26,14 @@
             <label for="dueDate">dueDate:</label>
             <input id="dueDate" name="dueDate" type="date" value="<%=invoice.dueDate ? invoice.dueDate.toISOString().split('T')[0] : '' %>"/>
         </div>
+        <label for="line-items"> Product list </label>
         <div id="line-items">
-            <!-- Single line item -->
+           
             <div class="line-item">
-                <select name="purchasedProduct[]">
+                <select  name="purchasedProduct[]">
                     <option value=""></option>
                     <% products.forEach(product => {%>
-                     <option value="<%= product._id%>"><%=product.productName%></option>
+                     <option  value="<%= product._id%>"><%=product.productName%></option>
                     <%});%>
                 </select>
                 <input type="number" name="quantity[]" placeholder="Quantity">

@@ -52,6 +52,9 @@ const expressLayouts = require("express-ejs-layouts");
 app.use(expressLayouts);
 //set default layout
 app.set("layout", "layouts/full-width");
+app.get('/invoiceDetails', (req, res) => {
+  res.render('invoiceDetails', { layout: false });
+});
 
 //morgan logging middleware
 const logger = require("morgan");

@@ -13,7 +13,14 @@ exports.searchInvoices = async function(req, res) {
 
   try {
     const invoices = await _invoiceOps.find({
-      invoiceNumber: { $regex: searchQuery, $options: "i" }
+      $or: [
+        { invoiceNumber: { $regex: searchQuery, $options: "i" } },
+        { "profile.name": { $regex: searchQuery, $options: "i" } },
+        { "profile.company": { $regex: searchQuery, $options: "i" } },
+        { "products.name": { $regex: searchQuery, $options: "i" } }
+        // Add more fields here if needed
+      ]
+    
     });
 
     res.render("invoices", { invoices: invoices, layout: "layouts/full-width" });
@@ -177,7 +184,7 @@ let responseObj = await _invoiceOps.createInvoice(tempInvoiceObj);
 };
 
 // Handle invoice form GET request
-exports.DeleteInvoiceById = async function (request, response) {
+exports.DeleteInvoice = async function (request, response) {
   const invoiceId = request.params.id;
   console.log(`deleting single invoice by id ${invoiceId}`);
   let deletedInvoice = await _invoiceOps.deleteInvoiceById(invoiceId);
@@ -185,14 +192,14 @@ exports.DeleteInvoiceById = async function (request, response) {
 
   if (deletedInvoice) {
     response.render("invoices", {
-      title: "Billing - Clients",
+      title: "Billing - invoices",
       invoices: invoices,
       errorMessage: "",
       layout: "layouts/full-width"
     });
   } else {
     response.render("invoices", {
-      title: "Billing - Clients",
+      title: "Billing - invoices",
       invoices: invoices,
       errorMessage: "Error.  Unable to Delete",
       layout: "layouts/full-width"

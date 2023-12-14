@@ -52,7 +52,7 @@ class InvoiceOps {
 
  
 
-  async deleteInvoice(id) {
+  async deleteInvoiceById(id) {
     try {
       console.log(`deleting invoice by id ${id}`);
       const deletedInvoice = await Invoice.findByIdAndDelete(id);
