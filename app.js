@@ -16,8 +16,8 @@ const mongoose = require("mongoose");
 
 //mongoose connection string
 
- //"mongodb+srv://test-user:t3fngEfRAqiAoahJ@ssd3100-a03.fdkzdmg.mongodb.net/?retryWrites=true&w=majority"
- const uri = "mongodb+srv://test-user:t3fngEfRAqiAoahJ@ssd3100-a03.fdkzdmg.mongodb.net/?retryWrites=true&w=majority";
+ //"mongodb+srv://test_user01:KbBFpMsInfrkpdKW@ss3100-p01.hjj7rm1.mongodb.net/?retryWrites=true&w=majority"
+ const uri = "mongodb+srv://test_user01:KbBFpMsInfrkpdKW@ss3100-p01.hjj7rm1.mongodb.net/?retryWrites=true&w=majority";
 //load indexRouter
 const indexRouter = require("./routers/indexRouter");
 const productsRouter = require("./routers/productsRouter");
