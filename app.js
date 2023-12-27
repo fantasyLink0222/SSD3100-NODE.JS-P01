@@ -4,7 +4,11 @@ const express = require("express");
 const path = require("path");
 const app = express();
 const port = process.env.PORT || 3007;
+const passport = require("passport");
+const LocalStrategy = require("passport-local");
 require("dotenv").config();
+
+
 
 //set up for the searchbar
 const profileController = require("./controllers/ProfileController");
@@ -38,13 +42,7 @@ app.set("views", path.join(__dirname, "views"));
 //set view engine to ejs
 app.set("view engine", "ejs");
 
-// app.get('/invoices/create', async (req, res) => {
-//   // Example: Fetch clients from a database
-//   const profiles = await getprofilesFromDatabase(); // Replace with your actual data fetching logic
 
-//   // Pass the clients data to the EJS template
-//   res.render('./views/invoice-create', { profiles: profiles });
-// });
 
 //import express ejs layouts
 const expressLayouts = require("express-ejs-layouts");
@@ -67,6 +65,14 @@ const { profile } = require("console");
 const Profile = require("./models/Product");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+// Set up session management
+app.use(
+  require("express-session")({
+    secret:"a longe time ago",
+    resave: false,
+    saveUninitialized: false,
+  })
+)
 
 //express static middleware : making the public folder globally accessible
 app.use(express.static("public"));
@@ -94,22 +100,10 @@ app.all("/*", (req, res) => {
 //start listening to port
 app.listen(port, () => console.log(`app listening on port ${port}!`));
 
-// Once we have our connection, let's load and log our profiles
-// db.once("open", async function () {
-//     const profiles = await getAllProfiles();
-//     console.log("Profiles:", profiles);
-//     db.close();
-// });
-
-// Don't close the connection here
-
-//   async function getAllProfiles() {
-//     let profiles = await Profile.find({});
-//     return profiles;
-//   }
-
-// async function getProfilesById(id){
-//     console.log(`getting profile by id ${id}`);
-//     let profile = await Profile.findById(id);
-//     return profile;
-// }
+// Initialize passport and configure for User model
+app.use(passport.initialize());
+app.use(passport.session());
+const User = require("./models/User");
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
