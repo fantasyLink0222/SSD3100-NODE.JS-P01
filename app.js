@@ -2,6 +2,7 @@
 
 const express = require("express");
 const path = require("path");
+const bodyParser = require("body-parser");
 const app = express();
 const port = process.env.PORT || 3007;
 const passport = require("passport");
@@ -59,12 +60,6 @@ const logger = require("morgan");
 //use logger as middleware
 app.use(logger("dev"));
 
-//parse applicaion form-urlencoded
-const bodyParser = require("body-parser");
-const { profile } = require("console");
-const Profile = require("./models/Product");
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
 // Set up session management
 app.use(
   require("express-session")({
@@ -73,6 +68,25 @@ app.use(
     saveUninitialized: false,
   })
 )
+
+
+//parse applicaion form-urlencoded
+
+const { profile } = require("console");
+const Profile = require("./models/Product");
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+// Initialize passport and configure for User model
+app.use(passport.initialize());
+app.use(passport.session());
+const User = require("./models/User");
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+
+
 
 //express static middleware : making the public folder globally accessible
 app.use(express.static("public"));
@@ -100,10 +114,3 @@ app.all("/*", (req, res) => {
 //start listening to port
 app.listen(port, () => console.log(`app listening on port ${port}!`));
 
-// Initialize passport and configure for User model
-app.use(passport.initialize());
-app.use(passport.session());
-const User = require("./models/User");
-passport.use(new LocalStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());

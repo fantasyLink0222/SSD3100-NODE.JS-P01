@@ -9,23 +9,29 @@
   </head>
   <body>
     <%- include('../partials/header.ejs') %>
-    <main>
-      <div>
-        <a href="/user/register">Register</a> |
-
-        <!-- Show 'Logout' and user name if authenticated. -->
-        <%if (reqInfo.authenticated) { %>
-        <a href="/user/logout">Logout</a> [<%= reqInfo.username %>]
-
-        <!-- 'else' must be in separate section with curly brackets to work. -->
-        <% } else { %>
-        <a href="/user/login">Login</a>
-        <% } %>
-        <%- body %>
-
-      </div>
+         
+      <main role="main" class="container">
+        <div class="starter-template">
+          <a href="/">Home</a> |
+          <!-- Show 'Logout' and user name if authenticated. -->
+          <%if (reqInfo.authenticated) { %>
+          <a href="/user/userProfile">My Profile</a> | <% if
+          (reqInfo.roles.includes("Admin")) { %>
+          <a href="/secure/admin">Admin Area</a> | <% } %> <% if
+          (reqInfo.roles.includes("Admin") || reqInfo.roles.includes("Manager")) {
+          %> <a href="/secure/manager">Manager Area</a> | <% } %>
+          <a href="/user/logout">Logout</a>
   
-    </main>
+          <!-- 'else' must be in separate section with curly brackets to work. -->
+          <% } else { %>
+          <a href="/user/register">Register</a> |
+          <a href="/user/login">Login</a>
+          <% } %>
+  
+          <!-- Child view will be rendered here. -->
+          <%- body %>
+        </div>
+      </main>
     <%- include('../partials/footer.ejs') %>
   </body>
 </html>
