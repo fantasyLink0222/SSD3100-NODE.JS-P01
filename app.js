@@ -22,12 +22,9 @@ const mongoose = require("mongoose");
 //mongoose connection string
 
  //"mongodb+srv://test_user01:KbBFpMsInfrkpdKW@ss3100-p01.hjj7rm1.mongodb.net/?retryWrites=true&w=majority"
- const uri = "mongodb+srv://test_user01:KbBFpMsInfrkpdKW@ss3100-p01.hjj7rm1.mongodb.net/?retryWrites=true&w=majority";
+ const uri = process.env.MONGO_CONNECTION_STRING;
 //load indexRouter
-const indexRouter = require("./routers/indexRouter");
-const productsRouter = require("./routers/productsRouter");
-const profilesRouter = require("./routers/profilesRouter");
-const invoicesRouter = require("./routers/invoicesRouter");
+
 
 // set up default mongoose connection
 mongoose.connect(uri);
@@ -101,10 +98,26 @@ app.get("/products/search", productController.searchProducts);
 app.get("/invoices/search", invoiceController.searchInvoices);
 
 //routes
-app.use("/", indexRouter);
+const indexRouter = require("./routers/indexRouter");
+// app.use("/", indexRouter);
+app.use(indexRouter);
+
+const productsRouter = require("./routers/productsRouter");
 app.use("/products", productsRouter);
+
+const profilesRouter = require("./routers/profilesRouter");//client
 app.use("/profiles", profilesRouter);
+
+const invoicesRouter = require("./routers/invoicesRouter");
 app.use("/invoices", invoicesRouter);
+
+const userRouter = require("./routers/userRouter");
+app.use("/user", userRouter);
+
+// Secure routes
+const secureRouter = require("./routers/secureRouter");
+app.use("/secure", secureRouter);
+
 
 //catch any unmatched routes
 app.all("/*", (req, res) => {

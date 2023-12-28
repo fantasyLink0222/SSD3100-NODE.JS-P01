@@ -6,10 +6,25 @@
   <nav id="nav-bar">
     <ul class="horizontal-nav">
       <!-- Changed this to 4 plain links because Josh said it doesn't need to be dynamic -->
-      <li><a href="/">Home</a></li>
-      <li><a href="/profiles">Clients</a></li>
-      <li><a href="/products">Products</a></li>
-      <li><a href="/invoices">Invoices</a></li>
+        <li><a href="/">Home</a> |</li>
+        
+        <!-- Show 'Logout' and user name if authenticated. -->
+        <%if (reqInfo.authenticated) { %>
+        <li><a href="/user/userProfile">My Profile</a> | <% if
+          (reqInfo.roles.includes("Admin")) { %></li>
+        <li><a href="/secure/admin">Admin Area</a> | <% } %> <% if
+          (reqInfo.roles.includes("Admin") || reqInfo.roles.includes("Manager")) {
+          %></li>
+        <li><a href="/secure/manager">Manager Area</a> | <% } %></li>
+          <li><a href="/user/logout">Logout</a></li>
+        
+
+        <!-- 'else' must be in separate section with curly brackets to work. -->
+        <% } else { %>
+          <li><a href="/user/register">Register</a> |</li>
+          <li><a href="/user/login">Login</a></li>
+        <% } %>
+  
     </ul> 
   </nav>
   
