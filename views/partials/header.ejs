@@ -10,8 +10,8 @@
         
         <!-- Show 'Logout' and user name if authenticated. -->
         <%if (reqInfo.authenticated) { %>
-        <li><a href="/user/userProfile">My Profile</a> | <% if
-          (reqInfo.roles.includes("Admin")) { %></li>
+        <li><a href="/user/userProfile">My Profile</a> | </li>
+           <% if(reqInfo.roles.includes("Admin")) { %>
         <li><a href="/secure/admin">Admin Area</a> | <% } %> <% if
           (reqInfo.roles.includes("Admin") || reqInfo.roles.includes("Manager")) {
           %></li>
