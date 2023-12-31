@@ -1,6 +1,7 @@
 const ProductOps = require("../data/ProductOps");
 const _productOps = new ProductOps();
 const Product = require("../models/Product.js");
+const RequestService = require("../services/RequestService");
 
 exports.searchProducts = async function (req, res) {
   console.log("searching for products");
@@ -20,45 +21,51 @@ exports.searchProducts = async function (req, res) {
 };
 
 
-exports.Products = async function (request, response) {
+exports.Products = async function (req, res) {
+
+  //let reqInfo = RequestService.reqHelper(req, ["Admin"]);
   console.log("loading products from controller");
   let products = await _productOps.getAllProducts();
-  if (products) {
-    response.render("products", {
+
+  if (products ) {
+    res.render("products", {
+      //reqInfo: reqInfo ,
       title: "Express Billing - Products",
       products: products,
       layout: "layouts/full-width",
     });
   } else {
-    response.render("products", {
+    res.render("products", {
       title: "Express Billing - Products",
       products: [],
     });
   }
 };
 
-exports.ProductDetail = async function (request, response) {
-  const productId = request.params.id;
+exports.ProductDetail = async function (req, res) {
+  const productId = req.params.id;
+  //let reqInfo = RequestService.reqHelper(req, ["Admin"]);
   console.log(`loading single product by id ${productId}`);
   let product = await _productOps.getProductById(productId);
   let products = await _productOps.getAllProducts();
   if (product) {
-    response.render("productDetails", {
+    res.render("productDetails", {
       title: "Express Yourself - " + product.productName,
+      
       products: products,
-      productId: request.params.id,
+      productId: req.params.id,
       layout: "./layouts/full-width",
     });
   } else {
-    response.render("productsDetails", {
+    res.render("productsDetails", {
       title: "Express Yourself - Products",
       products: [],
     });
   }
 };
 
-exports.Create = async function (request, response) {
-  response.render("product-form", {
+exports.Create = async function (req, res) {
+  res.render("product-form", {
     title: "Create Product",
     errorMessage: "",
     product_id: null,
@@ -66,11 +73,12 @@ exports.Create = async function (request, response) {
   });
 };
 
-exports.CreateProduct = async function (request, response) {
+exports.CreateProduct = async function (req, res) {
+  let reqInfo = RequestService.reqHelper(req, ["Admin"]);
   let tempProductObj = new Product({
-    productName: request.body.productName,
-    unitCost: request.body.unitCost,
-    productCode: request.body.productCode,
+    productName: req.body.productName,
+    unitCost: req.body.unitCost,
+    productCode: req.body.productCode,
   });
 
   let responseObj = await _productOps.createProduct(tempProductObj);
@@ -78,7 +86,7 @@ exports.CreateProduct = async function (request, response) {
   if (responseObj.errorMsg == "") {
     let products = await _productOps.getAllProducts();
     console.log(responseObj.obj);
-    response.render("products", {
+    res.render("products", {
       title: "Products",
       products: products,
       product_id: responseObj.obj._id.valueOf(),
@@ -86,7 +94,7 @@ exports.CreateProduct = async function (request, response) {
     });
   } else {
     console.log("An error occured. Product was not created.");
-    response.render("product-form", {
+    res.render("product-form", {
       title: "Create product",
       product: responseObj.obj,
       errorMessage: responseObj.errorMsg,

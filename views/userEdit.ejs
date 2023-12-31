@@ -1,0 +1,21 @@
+<h1><%= user_id ? "Edit" : "New" %> User</h1>
+<div id="form-container">
+    <form  action="/users/edit<%= user_id ? "/"+user_id : "" %>" method="POST">   
+        <input type="hidden" id="user_id" name="user_id" value="<%= user_id %>">
+        <label for="username">User Name:</label>
+        <input id="username" name="username" type="text" 
+                     value="<%= user.username ? user.username : '' %>" >
+        <label for="companyCode">Code:</label>
+        <input id="companyCode" name="companyCode" type="text" 
+                     value="<%= user.companyCode ? user.companyCode : '' %>" >
+        <label for="companyName">Company:</label>
+        <input id="companyName" name="companyName" type="text" 
+                     value="<%= user.companyName ? user.companyName : '' %>" >
+        <label for="email">Email:</label>
+        <input id="email" name="email" type="text" 
+                     value="<%= user.email ? user.email : '' %>" >
+             <button type="submit" value="Submit">Submit</button>
+    </form>
+</div>
+
+<%= errorMessage %>

@@ -3,11 +3,11 @@
     <form action="/invoices/create" method="POST">   
         
         <div>
-            <label for="selectedProfile">Customer:</label>
-            <select id="selectedProfile" name="selectedProfile"  >
+            <label for="selectedUser">Customer:</label>
+            <select id="selectedUser" name="selectedUser"  >
                 <option >choose the customer</option>
-                <% profiles.forEach(profile => { %>
-                    <option value="<%= profile._id %>"><%= profile.name %></option>
+                <% users.forEach(user => { %>
+                    <option value="<%= user._id %>"><%= user.username %></option>
                 <% }); %>
             </select>
         </div>

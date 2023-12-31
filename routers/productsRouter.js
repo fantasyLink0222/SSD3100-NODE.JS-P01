@@ -1,55 +1,22 @@
 const express = require("express");
 const productsRouter = express.Router();
 const productController = require("../controllers/ProductController");
+const secureController = require("../controllers/SecureController");
  
+// Apply the Admin middleware to routes that require admin privileges
+productsRouter.post("/edit", secureController.Admin, productController.CreateProduct);
 
+// Apply the Manager middleware to routes that require manager privileges
+productsRouter.get("/edit/:id", secureController.Admin, productController.Edit);
+productsRouter.post("/edit/:id", secureController.Admin, productController.EditProduct);
 
-  productsRouter.get("/", productController.Products);
+// All roles can view products, no middleware applied
+productsRouter.get("/", secureController.Admin,productController.Products);
+productsRouter.get("/:id",secureController.Admin, productController.ProductDetail);
 
-  productsRouter.get("/edit", productController.Create);
-  
-  productsRouter.post("/edit", productController.CreateProduct);
-  
-  productsRouter.get("/:id", productController.ProductDetail);
-  
-  productsRouter.get("/edit/:id", productController.Edit);
-  
-  productsRouter.post("/edit/:id", productController.EditProduct);
+// Apply the Admin middleware to delete route
+productsRouter.get("/:id/delete", secureController.Admin, productController.DeleteProductById);
 
-  productsRouter.get("/:id/delete", productController.DeleteProductById);
-
-// productsRouter.get("/", async (req, res) => {
-//   try{
-//     const products = await ProductOps.getAllProducts();
-//     res.render("products", {pages: viewData.pages, 
-//                             title: "Products", 
-//                             products: products});
-//   } catch (error){
-//     res.status(500).send("Error fetching products");
-//   }
-// });
-
-// productsRouter.get("/products/:id", async (req, res) => {
-//   try{
-//     const productId = req.params.id;
-//     const product = await ProductOps.getProductById(productId);
-
-//     if(product){
-//       res.render("product", {
-//         title: `Product: ${product.productName}`,
-//         product: product,
-//       });
-//     } else {
-//       res.status(404).send("Product not found");
-//     }
-//   } catch (error){
-//     res.status(500).send("Error fetching product");
-//   }
-// });
-
-productsRouter.get("/", productController.Products);
-productsRouter.get("/products/:id", productController.ProductDetail);
-// productsRouter.get("/search", productController.SearchProducts);
  
 
 
