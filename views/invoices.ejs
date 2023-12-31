@@ -16,16 +16,19 @@
   </div>
   <div id="list-container">
     <ul>
-      <% invoices.forEach(invoice => { %> <% if (invoice && invoice._id) { %>
-      <li class="invoices-list">
-        <a href="/invoices/<%= invoice._id %>" target="_blank">
-          <%= "Invoice#"+invoice.invoiceNumber + " - " + invoice.profile.name%>
-        </a>
-        <a href="/invoices/<%= invoice._id%>/delete"
-          ><button id="invDelBtn" class="btn btn-danger">Delete</button></a
-        >
-      </li>
-      <% } %> <% }) %>
+      <% invoices.forEach(invoice => { %>
+        <li class="invoices-list">
+          <a href="/invoices/<%= invoice._id %>" target="_blank">
+            <%= "Invoice#" + invoice.invoiceNumber %>
+            <% if (invoice.user && invoice.user.username) { %>
+              <%= " - " + invoice.user.username %>
+            <% } else { %>
+              <%= " - User not found" %>
+            <% } %>
+          </a>
+          <!-- Other code -->
+        </li>
+      <% }) %>
     </ul>
   </div>
 </main>

@@ -7,6 +7,14 @@ const userSchema = mongoose.Schema({
     type: String,
     unique: true,
   },
+  companyName: {
+    type: String,
+    unique: true,
+  },
+  companyCode: {
+    type: String,
+    unique: true,
+  },
   email: {
     type: String,
     unique: true,
@@ -14,16 +22,15 @@ const userSchema = mongoose.Schema({
   password: {
     type: String,
   },
-  firstName: {
-    type: String,
-  },
-  lastName: {
-    type: String,
-  },
+ 
   roles: {
     type: Array,
   },
-});
+},
+{collection: "users"}
+
+
+);
 // Add passport-local-mongoose to our Schema
 userSchema.plugin(passportLocalMongoose);
 

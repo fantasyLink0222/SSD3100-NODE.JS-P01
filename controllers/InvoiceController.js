@@ -1,10 +1,10 @@
 const Invoice = require("../models/Invoice");
 const InvoiceOps = require("../data/InvoiceOps");
 const Product = require("../models/Product.js");
-const Profile = require("../models/Profile.js");
-const ProfileOps = require("../data/ProfileOps");
+const User = require("../models/User.js");
+const UserOps = require("../data/UserOps.js");
 const ProductOps = require("../data/ProductOps.js");
-const _profileOps = new ProfileOps();
+const _userOps = new UserOps();
 const _invoiceOps = new InvoiceOps();
 const _productOps = new ProductOps();
 
@@ -15,8 +15,8 @@ exports.searchInvoices = async function(req, res) {
     const invoices = await _invoiceOps.find({
       $or: [
         { invoiceNumber: { $regex: searchQuery, $options: "i" } },
-        { "profile.name": { $regex: searchQuery, $options: "i" } },
-        { "profile.company": { $regex: searchQuery, $options: "i" } },
+        { "user.username": { $regex: searchQuery, $options: "i" } },
+        { "user.companyName": { $regex: searchQuery, $options: "i" } },
         { "products.name": { $regex: searchQuery, $options: "i" } }
         // Add more fields here if needed
       ]
@@ -75,13 +75,13 @@ exports.Detail = async function (request, response) {
 
 // Handle invoice form GET request
 exports.Create = async function (request, response) {
-  let profiles = await _profileOps.getAllProfiles();
+  let users = await _userOps.getAllUsers();
   let products = await _productOps.getAllProducts();
   response.render("invoice-form", {
     title: "Create Invoice",
     errorMessage: "",
     invoice: {},
-    profiles:profiles,
+    users:users,
     products:products,
     layout: "layouts/full-width"
   });
@@ -89,13 +89,13 @@ exports.Create = async function (request, response) {
 
 // Handle invoice form GET request
 exports.CreateInvoice = async function (request, response) {
-  let profiles = await _profileOps.getAllProfiles();
+  let users = await _userOps.getAllUsers();
   //let products = await _productOps.getAllProducts();
   console.log("rb", request.body);
   //let productQTY = request.body.productQuantities;
-  let profileId = request.body.selectedProfile;
+  let userId = request.body.selectedUser;
 
-  let profileObj = await _profileOps.getProfileById(profileId);
+  let userObj = await _userOps.getUserById(userId);
 
 
 
@@ -141,7 +141,7 @@ exports.CreateInvoice = async function (request, response) {
     invoiceNumber: request.body.invoiceNumber,
     issueDate: request.body.issueDate,
     dueDate: request.body.dueDate,
-    profile: profileObj,
+    user: userObj,
     products: productobjs,
     totalDue:productTotalAmt,
   });
@@ -156,7 +156,7 @@ let responseObj = await _invoiceOps.createInvoice(tempInvoiceObj);
       title: "Express bill - " + responseObj.obj.invoiceNumber,
       
       invoices: invoices,
-      profiles:profiles,
+      users:users,
       products: productobjs,
       invoiceId: responseObj.obj._id.valueOf(),
       layout: "layouts/full-width",
@@ -168,7 +168,7 @@ let responseObj = await _invoiceOps.createInvoice(tempInvoiceObj);
     response.render("invoice-form", {
       title: "Create invoice",
       invoice: responseObj.obj,
-      profiles:profiles,
+      users:users,
       products: productobjs,
       errorMessage: responseObj.errorMsg,
     });
@@ -197,4 +197,16 @@ exports.DeleteInvoice = async function (request, response) {
       layout: "layouts/full-width"
     });
   }
+};
+
+exports.getInvoices = (req, res) => {
+  Invoice.find({}).populate('user').exec((err, invoices) => {
+    if (err) {
+      // Handle error, maybe render an error page or send a response
+      res.status(500).send(err.message);
+    } else {
+      // Render the invoices view with the populated invoice data
+      res.render('invoices', { invoices: invoices });
+    }
+  });
 };

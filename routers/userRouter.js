@@ -2,6 +2,7 @@ const express = require("express");
 const userRouter = express.Router();
 const UserController = require("../controllers/UserController");
 
+
 // GET register page
 userRouter.get("/register", UserController.Register);
 // Handle register form submission

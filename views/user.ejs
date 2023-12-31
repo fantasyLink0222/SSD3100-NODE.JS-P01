@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create user</title>
+</head>
+<body>
+    <h3>New Client</h3>
+
+    <form action="/users/create" method="POST">   
+        <div>
+            <label for="username">User Name:</label>
+            <input id="username" name="username" type="text" value=<%= users.username ? users.username : '' %> >
+        </div>
+        <div>
+            <label for="companyCode">Code:</label>
+            <input id="companyCode" name="companyCode" type="text" value=<%= users.companyCode ? users.companyCode : '' %> >
+        </div>
+        <div>
+            <label for="companyName">Company:</label>
+            <input id="companyName" name="companyName" type="text" value=<%= users.companyName ? users.companyName : '' %> >
+        </div>
+        <div>
+            <label for="email">Email:</label>
+            <input id="email" name="email" type="text" value=<%= users.email ? users.email : '' %> >
+        </div>
+        <button type="submit" value="Submit">Submit</button>
+    </form>
+   
+</body>
+</html>

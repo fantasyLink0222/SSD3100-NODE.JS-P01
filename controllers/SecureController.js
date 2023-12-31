@@ -11,10 +11,12 @@ exports.Index = async function (req, res) {
 };
 
 // Admin area is available only to users who belong to Admin role
-exports.Admin = async function (req, res) {
+exports.Admin = async function (req, res, next) {
   let reqInfo = RequestService.reqHelper(req, ["Admin"]);
   if (reqInfo.rolePermitted) {
-    res.render("secure/admin-area", { errorMessage: "", reqInfo: reqInfo });
+    // Attach reqInfo to res.locals to make it available in the view
+    res.locals.reqInfo = reqInfo;
+    return next();
   } else {
     res.redirect(
       "/user/login?errorMessage=You must be an admin to access this area."
@@ -23,10 +25,23 @@ exports.Admin = async function (req, res) {
 };
 
 // Manager Area is available only to users who belong to Admin and/or Manager role
-exports.Manager = async function (req, res) {
+exports.Manager = async function (req, res, next) {
   let reqInfo = RequestService.reqHelper(req, ["Admin", "Manager"]);
   if (reqInfo.rolePermitted) {
-    res.render("secure/manager-area", { errorMessage: "", reqInfo: reqInfo });
+    res.locals.reqInfo = reqInfo;
+    return next();
+  } else {
+    res.redirect(
+      "/user/login?errorMessage=You must be a manager or admin to access this area."
+    );
+  }
+};
+// Manager Area is available only to users who belong to Admin and/or Manager role
+exports.Manager = async function (req, res, next) {
+  let reqInfo = RequestService.reqHelper(req, ["Admin", "Manager"]);
+  if (reqInfo.rolePermitted) {
+    res.locals.reqInfo = reqInfo;
+    return next();
   } else {
     res.redirect(
       "/user/login?errorMessage=You must be a manager or admin to access this area."

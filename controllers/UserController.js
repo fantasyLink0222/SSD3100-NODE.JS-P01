@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const passport = require("passport");
 const RequestService = require("../services/RequestService");
+const UserOps = require("../data/UserOps.js");
 
 const UserData = require("../data/UserData");
 const _userData = new UserData();
@@ -18,8 +19,8 @@ exports.RegisterUser = async function (req, res) {
     // Creates user object with mongoose model.
     // Note that the password is not present.
     const newUser = new User({
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
+      companyName: req.body.companyName,
+      companyCode: req.body.companyCode,
       email: req.body.email,
       username: req.body.username,
     });
@@ -49,8 +50,8 @@ exports.RegisterUser = async function (req, res) {
     let reqInfo = RequestService.reqHelper(req);
     res.render("user/register", {
       user: {
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
+        companyName: req.body.companyName,
+        companyCode: req.body.companyCode,
         email: req.body.email,
         username: req.body.username,
       },
@@ -106,9 +107,32 @@ exports.UserProfile = async function (req, res) {
     sessionData.roles = roles;
     reqInfo.roles = roles;
     let userInfo = await _userData.getUserByUsername(reqInfo.username);
+
     return res.render("user/userProfile", {
       reqInfo: reqInfo,
       userInfo: userInfo,
+      
+    });
+  } else {
+    res.redirect(
+      "/user/login?errorMessage=You must be logged in to view this page."
+    );
+  }
+};
+
+exports.UserProfileUpdate = async function (req, res) {
+  let reqInfo = RequestService.reqHelper(req);
+  if (reqInfo.authenticated) {
+    let roles = await _userData.getRolesByUsername(reqInfo.username);
+    let sessionData = req.session;
+    sessionData.roles = roles;
+    reqInfo.roles = roles;
+    let userInfo = await _userData.getUserByUsername(reqInfo.username);
+
+    return res.render("user/userProfile", {
+      reqInfo: reqInfo,
+      userInfo: userInfo,
+      
     });
   } else {
     res.redirect(

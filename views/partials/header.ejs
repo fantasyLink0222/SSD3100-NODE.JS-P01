@@ -5,27 +5,30 @@
   <!-- <link rel="stylesheet" href="styles/styles.css"> -->
   <nav id="nav-bar">
     <ul class="horizontal-nav">
-      <!-- Changed this to 4 plain links because Josh said it doesn't need to be dynamic -->
+        <!-- Static link to home -->
         <li><a href="/">Home</a> |</li>
         
-        <!-- Show 'Logout' and user name if authenticated. -->
-        <%if (reqInfo.authenticated) { %>
-        <li><a href="/user/userProfile">My Profile</a> | </li>
-           <% if(reqInfo.roles.includes("Admin")) { %>
-        <li><a href="/secure/admin">Admin Area</a> | <% } %> <% if
-          (reqInfo.roles.includes("Admin") || reqInfo.roles.includes("Manager")) {
-          %></li>
-        <li><a href="/secure/manager">Manager Area</a> | <% } %></li>
-          <li><a href="/user/logout">Logout</a></li>
-        
-
-        <!-- 'else' must be in separate section with curly brackets to work. -->
+        <!-- Show links based on authentication and role -->
+        <% if (reqInfo.authenticated) { %>
+            <li><a href="/user/userProfile">My Profile</a> |</li>
+            
+            <% if(reqInfo.roles.includes("Admin")) { %>
+                <li><a href="/products">products</a>|</li>
+            <% } %>
+            
+            <% if(reqInfo.roles.includes("Admin") || reqInfo.roles.includes("Manager")) { %>
+                <li><a href="/users">Users </a>|</li>
+                <li><a href="/invoices">Invoices</a> | </li>
+            <% } %>
+            
+            <li><a href="/user/logout">Logout</a></li>
+            
         <% } else { %>
-          <li><a href="/user/register">Register</a> |</li>
-          <li><a href="/user/login">Login</a></li>
+            <li><a href="/user/register">Register</a> | </li>
+            <li><a href="/user/login">Login</a></li>
         <% } %>
-  
     </ul> 
-  </nav>
+</nav>
+>
   
 </header>

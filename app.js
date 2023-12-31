@@ -12,9 +12,12 @@ require("dotenv").config();
 
 
 //set up for the searchbar
-const profileController = require("./controllers/ProfileController");
+const userOpsController = require("./controllers/UserOpsController");
 const productController = require("./controllers/ProductController");
 const invoiceController = require("./controllers/InvoiceController");
+const secureController = require("./controllers/SecureController");
+const userController = require("./controllers/UserController");
+const IndexController = require("./controllers/IndexController");
 
 //declaring mongoose
 const mongoose = require("mongoose");
@@ -69,8 +72,8 @@ app.use(
 
 //parse applicaion form-urlencoded
 
-const { profile } = require("console");
-const Profile = require("./models/Product");
+// const { profile } = require("console");
+// const Profile = require("./models/Product");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
@@ -88,25 +91,25 @@ passport.deserializeUser(User.deserializeUser());
 //express static middleware : making the public folder globally accessible
 app.use(express.static("public"));
 
-// Profile search route
-app.get("/profiles/search", profileController.searchProfiles);
+// User search route
+app.get("/Users/search", userOpsController.searchUsers);
 
 // Product search route
-app.get("/products/search", productController.searchProducts);
+app.get("/products/search", secureController.Manager,productController.searchProducts);
 
 // Invoice search route
-app.get("/invoices/search", invoiceController.searchInvoices);
+app.get("/invoices/search", secureController.Manager,invoiceController.searchInvoices);
 
 //routes
-const indexRouter = require("./routers/indexRouter");
+const indexRouter = require("./routers/indexRouter"); 
 // app.use("/", indexRouter);
 app.use(indexRouter);
 
 const productsRouter = require("./routers/productsRouter");
 app.use("/products", productsRouter);
 
-const profilesRouter = require("./routers/profilesRouter");//client
-app.use("/profiles", profilesRouter);
+const userOpsRouter = require("./routers/userOpsRouter");//client
+app.use("/users", userOpsRouter);
 
 const invoicesRouter = require("./routers/invoicesRouter");
 app.use("/invoices", invoicesRouter);

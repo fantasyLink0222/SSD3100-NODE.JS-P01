@@ -1,0 +1,26 @@
+<head>
+  <link rel="stylesheet" href="/styles/styles.css">
+</head>
+<main id="mainContainer">
+  <div id="header-container">
+    <h1>Users</h1>
+    <form id="searchForm" action="/users/search" method="GET">
+      <input class="searchbar" type="text" name="q" placeholder="Search by name">
+      <button class="btn btn-primary" type="submit">Search</button>
+    </form>
+    <a id="create-button" href="/users/create"><button id="newClient" class="btn btn-success">Add New User</button></a>
+  </div>
+  <div id="list-container">
+    <ul>
+      <% const sortedUsers = users.slice().sort((a, b) => a.username.localeCompare(b.username)); %>
+      <% for (let i = 0; i < sortedUsers.length; i++ ) { %>
+        <li id="clientsNames">
+          <a href="/users/<%= sortedUsers[i].id %>"><%= sortedUsers[i].username+" - "+sortedUsers[i].companyName, %></a>
+          <a href="/users/<%= sortedUsers[i].id %>/delete"><button id="cliDelBtn" class="btn btn-danger">Delete</button></a>
+        </li>
+      <% } %>
+    </ul>
+  </div>
+</main>
+
+

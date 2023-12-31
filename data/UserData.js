@@ -13,7 +13,7 @@ class UserData {
   async getUserByUsername(username) {
     let user = await User.findOne(
       { username: username },
-      { _id: 0, username: 1, email: 1, firstName: 1, lastName: 1 }
+      { _id: 0, username: 1, email: 1, companyName: 1, companyCode: 1 }
     );
     if (user) {
       const response = { user: user, errorMessage: "" };
