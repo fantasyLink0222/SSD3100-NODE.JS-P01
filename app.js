@@ -4,7 +4,7 @@ const express = require("express");
 const path = require("path");
 const bodyParser = require("body-parser");
 const app = express();
-const port = process.env.PORT || 3007;
+const port = process.env.PORT || 3022;
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 require("dotenv").config();
