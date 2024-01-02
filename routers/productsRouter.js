@@ -4,7 +4,8 @@ const productController = require("../controllers/ProductController");
 const secureController = require("../controllers/SecureController");
  
 // Apply the Admin middleware to routes that require admin privileges
-productsRouter.post("/edit", secureController.Admin, productController.CreateProduct);
+productsRouter.get("/create", secureController.Admin, productController.Create);
+productsRouter.post("/create", secureController.Admin, productController.CreateProduct);
 
 // Apply the Manager middleware to routes that require manager privileges
 productsRouter.get("/edit/:id", secureController.Admin, productController.Edit);

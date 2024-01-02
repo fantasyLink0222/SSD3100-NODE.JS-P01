@@ -1,26 +1,67 @@
 <h1 id="pageHeading">New Client</h1>
-<div id="form-container">
-    <form action="/users/create" method="POST">   
-        <div>
-            <label for="name">Name:</label>
-            <input id="name" name="name" type="text" value=<%= user.name ? user.name : '' %> >
-        </div>
-        <div>
-            <label for="code">Code:</label>
-            <input id="code" name="code" type="text" value=<%= user.code ? user.code : '' %> >
-        </div>
-        <div>
-            <label for="company">Company:</label>
-            <input id="company" name="company" type="text" value=<%= user.company ? user.company : '' %> >
-        </div>
-        <div>
-            <label for="email">Email:</label>
-            <input id="email" name="email" type="text" value=<%= user.email ? user.email : '' %> >
-        </div>
-        <button type="submit" value="Submit" class="btn btn-success">Submit</button>
-        <a href="/users">
-            <button type="button" class="btn btn-primary">Back to Clients</button>
-          </a>
-    </form>
-</div>
+<div id="list-container">
+    <div>
+      <form action="/users/create" method="POST">
+        <table>
+          <tbody>
+            <tr>
+              <td>User Name:</td>
+              <td>
+                <input
+                  name="username"
+                  type="text"
+                  value="<%= user.username ? user.username : '' %>"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>Email:</td>
+              <td>
+                <input
+                  name="email"
+                  type="text"
+                  value="<%= user.email ? user.email : '' %>"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>Company name:</td>
+              <td>
+                <input
+                  name="companyName"
+                  type="text"
+                  value="<%= user.companyName ? user.companyName : '' %>"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>Company Code:</td>
+              <td>
+                <input
+                  name="companyCode"
+                  type="text"
+                  value="<%= user.companyCode ? user.companyCode : '' %>"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>Roles:</td>
+              <td><input 
+                name="roles" 
+                type="text"
+                value="<%= user.roles ? user.roles : '' %>"
+                
+                /></td>
+            </tr>
+          
+            <tr>
+              <td></td>
+              <td><input type="submit" value="Submit" /></td>
+            </tr>
+          </tbody>
+        </table>
+      </form>
+    </div>
+
+  </div>
 <%= errorMessage %>

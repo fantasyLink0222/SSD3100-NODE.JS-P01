@@ -11,6 +11,8 @@ const invoiceSchema = new Schema({
     dueDate: {type: Date, required:false,validate: [dateValidator, 'dueDate must be later than the invoice issue date']},
     products:{type:Array, required: true},
     totalDue:{type:"Number", required: false},
+    //add a property "paid" for admin/manager roles.
+    paid:{type:Boolean,default:false},
 
 },
     {collection: "invoices"}

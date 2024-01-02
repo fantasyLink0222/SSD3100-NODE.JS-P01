@@ -74,7 +74,7 @@ exports.Create = async function (req, res) {
 };
 
 exports.CreateProduct = async function (req, res) {
-  let reqInfo = RequestService.reqHelper(req, ["Admin"]);
+  
   let tempProductObj = new Product({
     productName: req.body.productName,
     unitCost: req.body.unitCost,

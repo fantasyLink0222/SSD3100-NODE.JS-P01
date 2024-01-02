@@ -73,6 +73,28 @@ class InvoiceOps {
     }
   }
   
+  async markInvoiceAsPaidById(id) {
+    try{
+
+    console.log(`mark invoice as paid by id ${id}`);
+    const result = await Invoice.findByIdAndUpdate(id,{paid:true});
+   
+
+    console.log("updated invoice: ", result);
+    return {
+      obj: result,
+      errorMsg: "",
+    };
+
+    }catch (error) {
+      console.error("Error deleting invoice: ", error);
+      throw error;
+    }
+    
+  }
+  
+
+
 }
 
 

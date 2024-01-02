@@ -10,16 +10,34 @@
     </form>
     <a id="create-button" href="/users/create"><button id="newClient" class="btn btn-success">Add New User</button></a>
   </div>
+
   <div id="list-container">
-    <ul>
-      <% const sortedUsers = users.slice().sort((a, b) => a.username.localeCompare(b.username)); %>
-      <% for (let i = 0; i < sortedUsers.length; i++ ) { %>
-        <li id="clientsNames">
-          <a href="/users/<%= sortedUsers[i].id %>"><%= sortedUsers[i].username+" - "+sortedUsers[i].companyName, %></a>
-          <a href="/users/<%= sortedUsers[i].id %>/delete"><button id="cliDelBtn" class="btn btn-danger">Delete</button></a>
-        </li>
-      <% } %>
-    </ul>
+    <table>
+      <thead>
+        <tr>
+          <th>User Name</th>
+          <th>Company</th>
+          <th>Code</th>
+          <th>Email</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% users.forEach(user => { %>
+          <tr>
+            <td><a href="/users/<%= user.id %>"><%= user.username %></a></td>
+            <td><%= user.companyName %></td>
+            <td><%= user.companyCode %></td> 
+            <td><%= user.email %></td>
+            <td>
+              <a href="/users/<%= user.id %>/delete">
+                <button class="btn btn-danger">Delete</button>
+              </a>
+            </td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
   </div>
 </main>
 

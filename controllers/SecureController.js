@@ -37,14 +37,4 @@ exports.Manager = async function (req, res, next) {
   }
 };
 // Manager Area is available only to users who belong to Admin and/or Manager role
-exports.Manager = async function (req, res, next) {
-  let reqInfo = RequestService.reqHelper(req, ["Admin", "Manager"]);
-  if (reqInfo.rolePermitted) {
-    res.locals.reqInfo = reqInfo;
-    return next();
-  } else {
-    res.redirect(
-      "/user/login?errorMessage=You must be a manager or admin to access this area."
-    );
-  }
-};
+

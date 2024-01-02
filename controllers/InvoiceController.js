@@ -29,18 +29,18 @@ exports.searchInvoices = async function(req, res) {
   }
 };
 
-exports.Index = async function (request, response) {
+exports.Index = async function (req, res) {
   console.log("loading invoices from controller");
   let invoices = await _invoiceOps.getAllInvoices();
   if (invoices) {
-    response.render("invoices", {
+    res.render("invoices", {
       title: "Billing - Invoices",
       invoices: invoices,
       layout: "layouts/full-width",
       errorMessage: "",
     });
   } else {
-    response.render("invoices", {
+    res.render("invoices", {
       title: "Billing - Invoices",
       invoices: [],
       errorMessage: "",
@@ -49,23 +49,23 @@ exports.Index = async function (request, response) {
   }
 };
 
-exports.Detail = async function (request, response) {
-  const invoiceId = request.params.id;
+exports.Detail = async function (req, res) {
+  const invoiceId = req.params.id;
   console.log(`loading single invoice by id ${invoiceId}`);
   let invoice = await _invoiceOps.getInvoiceById(invoiceId);
   let invoices = await _invoiceOps.getAllInvoices();
 
   if (invoice) {
-    response.render("invoiceDetail", {
+    res.render("invoiceDetail", {
       title: "Express Yourself - " + invoice._id,
       invoices: invoices,
-      invoiceId: request.params.id,
+      invoiceId: req.params.id,
       invoice: invoice,
       layout: false ,
       applySpecialCSS: true 
     });
   } else {
-    response.render("invoices", {
+    res.render("invoices", {
       title: "Billing - Invoices",
       invoices: [],
     
@@ -73,11 +73,11 @@ exports.Detail = async function (request, response) {
   }
 };
 
-// Handle invoice form GET request
-exports.Create = async function (request, response) {
+// Handle invoice form GET req
+exports.Create = async function (req, res) {
   let users = await _userOps.getAllUsers();
   let products = await _productOps.getAllProducts();
-  response.render("invoice-form", {
+  res.render("invoice-form", {
     title: "Create Invoice",
     errorMessage: "",
     invoice: {},
@@ -87,20 +87,20 @@ exports.Create = async function (request, response) {
   });
 };
 
-// Handle invoice form GET request
-exports.CreateInvoice = async function (request, response) {
+// Handle invoice form GET req
+exports.CreateInvoice = async function (req, res) {
   let users = await _userOps.getAllUsers();
-  //let products = await _productOps.getAllProducts();
-  console.log("rb", request.body);
-  //let productQTY = request.body.productQuantities;
-  let userId = request.body.selectedUser;
+ 
+  console.log("rb", req.body);
+ 
+  let userId = req.body.selectedUser;
 
   let userObj = await _userOps.getUserById(userId);
 
 
 
-  let productIds =request.body['purchasedProduct[]'];
-  let quantities = request.body['quantity[]'];
+  let productIds =req.body['purchasedProduct[]'];
+  let quantities = req.body['quantity[]'];
 
   if (!Array.isArray(productIds)) {
     productIds = [productIds];
@@ -138,59 +138,59 @@ exports.CreateInvoice = async function (request, response) {
   
   // instantiate a new Invoice Object populated with form data
   let tempInvoiceObj = new Invoice({
-    invoiceNumber: request.body.invoiceNumber,
-    issueDate: request.body.issueDate,
-    dueDate: request.body.dueDate,
+    invoiceNumber: req.body.invoiceNumber,
+    issueDate: req.body.issueDate,
+    dueDate: req.body.dueDate,
     user: userObj,
     products: productobjs,
     totalDue:productTotalAmt,
   });
 
-let responseObj = await _invoiceOps.createInvoice(tempInvoiceObj);
+let resObj = await _invoiceOps.createInvoice(tempInvoiceObj);
 
   // if no errors, save was successful
-  if (responseObj.errorMsg == "") {
+  if (resObj.errorMsg == "") {
     let invoices = await _invoiceOps.getAllInvoices();
-    console.log(responseObj.obj);
-    response.render("invoices", {
-      title: "Express bill - " + responseObj.obj.invoiceNumber,
+    console.log(resObj.obj);
+    res.render("invoices", {
+      title: "Express bill - " + resObj.obj.invoiceNumber,
       
       invoices: invoices,
       users:users,
       products: productobjs,
-      invoiceId: responseObj.obj._id.valueOf(),
+      invoiceId: resObj.obj._id.valueOf(),
       layout: "layouts/full-width",
     });
   }
   // There are errors. Show form the again with an error message.
   else {
     console.log("An error occured. Item not created.");
-    response.render("invoice-form", {
+    res.render("invoice-form", {
       title: "Create invoice",
-      invoice: responseObj.obj,
+      invoice: resObj.obj,
       users:users,
       products: productobjs,
-      errorMessage: responseObj.errorMsg,
+      errorMessage: resObj.errorMsg,
     });
   }
 };
 
-// Handle invoice form GET request
-exports.DeleteInvoice = async function (request, response) {
-  const invoiceId = request.params.id;
+// Handle invoice form GET req
+exports.DeleteInvoice = async function (req, res) {
+  const invoiceId = req.params.id;
   console.log(`deleting single invoice by id ${invoiceId}`);
   let deletedInvoice = await _invoiceOps.deleteInvoiceById(invoiceId);
   let invoices = await _invoiceOps.getAllInvoices();
 
   if (deletedInvoice) {
-    response.render("invoices", {
+    res.render("invoices", {
       title: "Billing - invoices",
       invoices: invoices,
       errorMessage: "",
       layout: "layouts/full-width"
     });
   } else {
-    response.render("invoices", {
+    res.render("invoices", {
       title: "Billing - invoices",
       invoices: invoices,
       errorMessage: "Error.  Unable to Delete",
@@ -199,14 +199,54 @@ exports.DeleteInvoice = async function (request, response) {
   }
 };
 
-exports.getInvoices = (req, res) => {
-  Invoice.find({}).populate('user').exec((err, invoices) => {
-    if (err) {
-      // Handle error, maybe render an error page or send a response
-      res.status(500).send(err.message);
-    } else {
-      // Render the invoices view with the populated invoice data
-      res.render('invoices', { invoices: invoices });
-    }
+
+exports.MarkInvoice = async function (req, res) {
+  const invoiceId = req.params.id;
+  console.log(`marking selected invoice ${invoiceId} as paid`);
+  let invoiceObj = await _invoiceOps.getInvoiceById(invoiceId);
+  let invoices = await _invoiceOps.getAllInvoices();
+  res.render("invoices", {
+    title: "Billing - invoices",
+    errorMessage: "",
+    invoices: invoices,
+    invoice: invoiceObj,
   });
 };
+
+exports.MarkInvoiceAsPaid = async function (req, res) {
+  const invoiceId = req.params.id;
+  console.log(`Marking invoice as paid by id ${invoiceId}`);
+  try {
+    let paidInvoice = await _invoiceOps.markInvoiceAsPaidById(invoiceId);
+    let invoices = await _invoiceOps.getAllInvoices();
+
+    if (paidInvoice && paidInvoice.errorMsg === "") {
+      res.render("invoices", {
+        title: "Billing - invoices",
+        invoices: invoices,
+        invoice: paidInvoice.obj, // assuming paidInvoice returns an object with the invoice
+        errorMessage: "",
+        layout: "layouts/full-width"
+      });
+    } else {
+      // If paidInvoice is falsy or contains an error message, handle as error
+      res.render("invoices", {
+        title: "Billing - invoices",
+        invoices: invoices,
+        errorMessage: paidInvoice ? paidInvoice.errorMsg : "Error. Unable to mark as paid",
+        layout: "layouts/full-width"
+      });
+    }
+  } catch (error) {
+    // Handle any exceptions that were thrown during the process
+    console.error("An error occurred while marking an invoice as paid: ", error);
+    res.render("invoices", {
+      title: "Billing - invoices",
+      invoices: invoices,
+      errorMessage: "An unexpected error occurred.",
+      layout: "layouts/full-width"
+    });
+  }
+};
+  
+

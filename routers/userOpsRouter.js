@@ -16,8 +16,8 @@ const dataPath = path.join(__dirname, "../data/");
 userOpsRouter.get("/", secureController.Manager,userOpsController.Index);
 
 // note that the create route need to come before the detail routes or else it will be interpreted as a detail route
-userOpsRouter.get("/create", secureController.Manager,userController.Register);
-userOpsRouter.post("/create", secureController.Manager,userController.RegisterUser);
+userOpsRouter.get("/create", secureController.Manager,userOpsController.Create);
+userOpsRouter.post("/create", secureController.Manager,userOpsController.CreateUser);
 
 userOpsRouter.get("/:id", secureController.Manager,userOpsController.Detail);
 userOpsRouter.get("/edit/:id", secureController.Manager,userOpsController.Edit);

@@ -1,22 +1,25 @@
 const express = require("express");
 const userRouter = express.Router();
-const UserController = require("../controllers/UserController");
+const userController = require("../controllers/UserController");
+const userOpsController = require("../controllers/UserOpsController");
 
 
 // GET register page
-userRouter.get("/register", UserController.Register);
+userRouter.get("/register", userController.Register);
 // Handle register form submission
-userRouter.post("/register", UserController.RegisterUser);
+userRouter.post("/register", userController.RegisterUser);
 
 // GET login page
-userRouter.get("/login", UserController.Login);
+userRouter.get("/login", userController.Login);
 // Handle login form submission
-userRouter.post("/login", UserController.LoginUser);
+userRouter.post("/login", userController.LoginUser);
 
 // GET logout
-userRouter.get("/logout", UserController.Logout);
+userRouter.get("/logout", userController.Logout);
 
 // GET profile page
-userRouter.get("/userProfile", UserController.UserProfile);
+userRouter.get("/userProfile", userController.UserProfile);
+userRouter.get("/edit/:id", userOpsController.Edit);
+userRouter.post("/edit/:id", userOpsController.EditUser);
 
 module.exports = userRouter;

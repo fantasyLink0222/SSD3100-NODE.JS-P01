@@ -1,8 +1,47 @@
-<h1>My Profile</h1>
 
-Username: <%= userInfo.user.username %><br />
-Company:  <%= userInfo.user.companyName %><br />
-Company code: <%= userInfo.user.companyCode %><br />
-Email: <%= userInfo.user.email %><br />
 
-<% if(reqInfo.roles?.length) { %> Roles: <%= reqInfo.roles %> <% } %>
+<head>
+    <link rel="stylesheet" href="/styles/styles.css">
+  </head>
+  <main id="mainContainer">
+    <div id="header-container">
+      <h1>My Profile</h1>
+  
+      <div id="list-container">
+        <div>
+            <table>
+                <tr>
+                  <th>Username:</th>
+                  <td><%= userInfo.user.username %></td>
+                </tr>
+                <tr>
+                  <th>Company:</th>
+                  <td><%= userInfo.user.companyName %></td>
+                </tr>
+                <tr>
+                  <th>Company code:</th>
+                  <td><%= userInfo.user.companyCode %></td>
+                </tr>
+                <tr>
+                  <th>Email:</th>
+                  <td><%= userInfo.user.email %></td>
+                </tr>
+                <% if(reqInfo.roles?.length) { %>
+                <tr>
+                  <th>Roles:</th>
+                  <td><%= reqInfo.roles.join(', ') %></td> 
+                </tr>
+
+                <% } %>
+                <tr>
+                    <td><a href="/users/edit/<%= userInfo._id %>"><button class="btn btn-warning">Edit</button></a></td>
+                    <td><a href="/" class="btn btn-primary">Back to home</a></td>
+                  </tr>
+              
+              </table>
+        </div>
+
+    
+      
+    
+  </main>

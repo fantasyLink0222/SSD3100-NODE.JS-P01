@@ -19,6 +19,9 @@ invoicesRouter.post("/create",secureController.Manager, InvoiceController.Create
 invoicesRouter.get("/:id", secureController.Manager,InvoiceController.Detail);
 invoicesRouter.get("/:id/delete", secureController.Manager,InvoiceController.DeleteInvoice);
 
+invoicesRouter.get("/:id/MarkAsPaid", secureController.Manager,InvoiceController.MarkInvoice);
+invoicesRouter.post("/:id/MarkAsPaid", secureController.Manager,InvoiceController.MarkInvoiceAsPaid);
+
 //invoicesRouter.get("/delete/:id", InvoiceController.DeleteInvoiceById);
 // invoicesRouter.get("/search", InvoiceController.SearchProducts);
 

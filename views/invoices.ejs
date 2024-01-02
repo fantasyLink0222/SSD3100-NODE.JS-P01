@@ -14,18 +14,51 @@
       ><button id="newInvoice" class="btn btn-success">New Invoice</button></a
     >
   </div>
+
+
   <div id="list-container">
-    <ul>
-      <% invoices.forEach(invoice => { %> <% if (invoice && invoice._id) { %>
-      <li class="invoices-list">
-        <a href="/invoices/<%= invoice._id %>" target="_blank">
-          <%= "Invoice#"+invoice.invoiceNumber + " - " + invoice.user.username%>
-        </a>
-        <a href="/invoices/<%= invoice._id%>/delete"
-          ><button id="invDelBtn" class="btn btn-danger">Delete</button></a
-        >
-      </li>
-      <% } %> <% }) %>
-    </ul>
+    <table>
+      <thead>
+        <tr>
+          <th>Invoice No.</th>
+          <th>Status</th>
+          <th>Payee</th>
+          <th>Due Amount</th>
+          <th>Issue Date</th>
+          <th>Due Date</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% invoices.forEach(invoice => { %>
+          <% if (invoice && invoice._id) { %>
+            <tr class="invoices-list">
+              <!-- Make the invoice number a link to the invoice details -->
+              <td>
+                <a href="/invoices/<%= invoice._id %>" target="_blank">
+                  <%= invoice.invoiceNumber %>
+                </a>
+              </td>
+              <td><%= invoice.paid ? "Paid" : "Pending paid" %></td>
+              <td><%= invoice.user.username %></td>
+              <td>$<%= invoice.totalDue.toFixed(2) %></td>
+              <td><%= invoice.issueDate.toDateString().slice(4) %></td>
+              <td><%= invoice.dueDate.toDateString().slice(4) %></td>
+              <td>
+                <% if(reqInfo.roles.includes("Admin") || reqInfo.roles.includes("Manager")) { %>
+                  <form action="/invoices/<%= invoice._id %>/MarkAsPaid" method="POST">
+                    <button type="submit" class="btn btn-warning">Mark as Paid</button>
+                  </form>
+                  <a href="/invoices/<%= invoice._id %>/delete">
+                    <button class="btn btn-danger">Delete</button>
+                  </a>
+                <% } %>
+              </td>
+            </tr>
+          <% } %>
+        <% }) %>
+      </tbody>
+    </table>
   </div>
 </main>
+
