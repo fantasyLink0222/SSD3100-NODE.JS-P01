@@ -415,3 +415,51 @@ h5{
 .btn-primary {
   /* Specific styles for the 'Back to user list' button if needed */
 }
+
+
+/*header nav css*/
+
+/* 基本重置，去除默认的列表样式 */
+ul.horizontal-nav {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333; /* 导航栏的背景颜色 */
+}
+
+/* 导航项样式 */
+ul.horizontal-nav li {
+  float: left;
+}
+
+/* 导航链接样式 */
+ul.horizontal-nav li a {
+  display: block;
+  color: white; 
+  text-align: center;
+  padding: 14px 16px; 
+  text-decoration: none; 
+  transition: background-color 0.3s; 
+}
+
+
+ul.horizontal-nav li a:hover {
+  background-color: #111; 
+}
+
+ul.horizontal-nav li a.active {
+  background-color: #04AA6D; 
+}
+
+
+ul.horizontal-nav li.welcome {
+  float: right;
+  padding: 14px 16px;
+  color: #27ae60;
+}
+ul.horizontal-nav li.home {
+  float: right;
+  padding: 14px 16px;
+  color:burlywood;
+}

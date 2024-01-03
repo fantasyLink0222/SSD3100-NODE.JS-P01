@@ -49,6 +49,8 @@ exports.Index = async function (req, res) {
   }
 };
 
+
+
 exports.Detail = async function (req, res) {
   const invoiceId = req.params.id;
   console.log(`loading single invoice by id ${invoiceId}`);

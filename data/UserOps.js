@@ -16,7 +16,8 @@ class UserOps {
     let user = await User.findById(id);
     return user;
   }
-
+  
+  
   async createUser(userObj) {
     try {
       const error = await userObj.validateSync();

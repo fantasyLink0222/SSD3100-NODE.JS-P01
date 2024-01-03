@@ -78,7 +78,7 @@ exports.CreateUser = async function (req, res) {
     companyCode: req.body.companyCode,
     email: req.body.email,
     username: req.body.username,
-    roles:req.body.roles,
+    roles:req.body.roles||"RegUser",
   });
 
   //
@@ -139,7 +139,7 @@ exports.EditUser = async function (req, res) {
   if (resObj.errorMsg == "") {
     let users = await _userOps.getAllUsers();
     console.log(resObj.obj);
-    res.render("users", {
+    res.render("userDetails", {
       title: "Express Billing - " + resObj.obj.name,
       users: users,
       userId: resObj.obj._id.valueOf(),

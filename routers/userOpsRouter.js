@@ -20,8 +20,8 @@ userOpsRouter.get("/create", secureController.Manager,userOpsController.Create);
 userOpsRouter.post("/create", secureController.Manager,userOpsController.CreateUser);
 
 userOpsRouter.get("/:id", secureController.Manager,userOpsController.Detail);
-userOpsRouter.get("/edit/:id", secureController.Manager,userOpsController.Edit);
-userOpsRouter.post("/edit/:id", secureController.Manager,userOpsController.EditUser);
+userOpsRouter.get("/edit/:id",secureController.RegUser, userOpsController.Edit);
+userOpsRouter.post("/edit/:id",secureController.RegUser, userOpsController.EditUser);
 userOpsRouter.get("/:id/delete", secureController.Manager,userOpsController.DeleteUserById);
 // userOpsRouter.get("/search", UserController.SearchProducts);
 

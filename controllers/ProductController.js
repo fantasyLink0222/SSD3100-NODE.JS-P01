@@ -65,7 +65,7 @@ exports.ProductDetail = async function (req, res) {
 };
 
 exports.Create = async function (req, res) {
-  res.render("product-form", {
+  res.render("product-create", {
     title: "Create Product",
     errorMessage: "",
     product_id: null,
@@ -94,7 +94,7 @@ exports.CreateProduct = async function (req, res) {
     });
   } else {
     console.log("An error occured. Product was not created.");
-    res.render("product-form", {
+    res.render("product-create", {
       title: "Create product",
       product: responseObj.obj,
       errorMessage: responseObj.errorMsg,
@@ -105,7 +105,7 @@ exports.CreateProduct = async function (req, res) {
 exports.Edit = async function (request, response) {
   const productId = request.params.id;
   let productObj = await _productOps.getProductById(productId);
-  response.render("product-form", {
+  response.render("product-edit", {
     title: "Edit Profile",
     errorMessage: "",
     product_id: productId,
@@ -127,15 +127,16 @@ exports.EditProduct = async function (request, response) {
 
   if (responseObj.errorMsg == "") {
     let products = await _productOps.getAllProducts();
-    response.render("products", {
+    response.render("productDetails", {
       title: "Products",
       products: products,
+      productId:productId,
 
       //insert layout to be used
     });
   } else {
     console.log("An error occured. Item was not updated.");
-    response.render("product-form", {
+    response.render("product-edit", {
       title: "Edit Product",
       product: responseObj.obj,
       product_id: productId,

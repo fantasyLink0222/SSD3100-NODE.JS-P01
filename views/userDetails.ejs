@@ -1,19 +1,55 @@
-<main id="details-container">
+
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="/styles/styles.css">
+</head>
+<body>
+  <main id="mainContainer">
     <% for (let i=0; i < users.length; i++) { %> <% if
         (users[i].id===userId) { %>
-        <h1><%= users[i].username %></h1>
-        <div id="view">
-            <div><strong>User Name:</strong> <%= users[i].username %></div>
-            <div><strong>Company Name:</strong> <%= users[i].companyName %></div>
-            <div><strong>Company Code:</strong> <%= users[i].companyCode %></div>
-            <div><strong>Email:</strong> <%= users[i].email %></div>
-            <div><strong>Roles:</strong> <%= users[i].roles %></div>
-        </div>
-        <div id="edit">
-            <a href="/users/edit/<%= userId %>"><button class="btn btn-warning">Edit</button></a>
-        </div>
-        <div id="back-to-btn">
-            <a href="/users"><button class="btn btn-primary">Back to user list</button></a
-        </div>
-    <% } %> <% } %>
-</main>
+    <div id="header-container">
+      <h1>User Profile</h1>
+    </div>
+
+    <div id="list-container">
+  
+      <table>
+        <tr>
+          <th>Username:</th>
+          <td><%= users[i].username %></td>
+        </tr>
+        <tr>
+          <th>Company:</th>
+          <td><%= users[i].companyName %></td>
+        </tr>
+        <tr>
+          <th>Company code:</th>
+          <td><%= users[i].companyCode %></td>
+        </tr>
+        <tr>
+          <th>Email:</th>
+          <td><%= users[i].email %></td>
+        </tr>
+        
+          <tr>
+            <th>Roles:</th>
+            <td><%= users[i].roles.join(', ') %></td>
+          </tr>
+       
+        <tr>
+          <td >
+            <a href="/users/edit/<%= userId  %>" class="btn btn-warning">Edit</a>
+          </td>
+          <td>
+            <a href="/users" class="btn btn-primary">Back to user list</a>
+          </td>
+           
+        </tr>
+      </table>
+    </div>
+
+    <% } %><% } %>
+  </main>
+</body>
+</html>

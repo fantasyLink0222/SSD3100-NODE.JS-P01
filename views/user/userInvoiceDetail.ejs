@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/styles/invoice-style.css">
+    <title>Billing - Invoice</title>
+</head>
+<% for (let i = 0; i < invoices.length; i++) { %> 
+    <% if (invoices[i].id === invoiceId) { %>
+<body>
+  <main class="grid-container">
+    <header>
+      <section class="company-info-logo">
+          <img class="logo-image" src="/images/logo_img.svg" alt="logo">
+          <div class="company-info">
+              <p>Peaches Co.</p>
+              <p>123 Peaches Street</p>
+              <p>Suite 101</p>
+              <p>Peaches, BC</p>
+              <p>A1A A1A</p>
+              <p>peaches@peaches.com</p>
+          </div>
+      </section>
+      <div class="invoice-num">
+        <p>Invoice No.  <%= invoices[i].invoiceNumber %></p>
+      </div>
+  </header>
+  <section class="client-section">
+    <div class="client-info">
+      <h2>
+        BILL TO:
+      </h2>
+      <p><%= invoices[i].user.username %></p>
+      <p><%= invoices[i].user.companyName %></p>
+      <p>123 Some Street</p>
+      <p>Suite 101</p>
+      <p>Peaches, BC</p>
+      <p>A1A A1A</p>
+      <p><%= invoices[i].user.email %></p>
+    </div>
+    <div class="boxed-info">
+      <div class="boxed-date">
+        <span>DATE</span>
+        <p><%= new Date(invoices[i].issueDate).toISOString().split('T')[0] %></p>
+      </div>
+      <div class="boxed-pls-pay">
+        <span>PLEASE PAY</span>
+        <p>CAD <%= invoices[i].totalDue %></p>
+      </div>
+      <div class="boxed-due-date">
+        <span>DUE DATE</span>
+        <p><%= new Date(invoices[i].dueDate).toISOString().split('T')[0] %></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="purchased-items">
+    <thead>
+      <table>
+        <tr class="purchase-tr">
+          <th class="item">ITEM</th>
+          <th class="qty">QTY</th>
+          <th>RATE</th>
+          <th class="amount">AMOUNT</th>
+      </tr>
+    </thead>
+      <tbody>
+          <tr>
+              <td class="item"><% for (let i=0;i<invoice.products.length;i++) {%>
+                <p><%=invoice.products[i].productName%></p>
+              <%}%></td>
+              <td><% for (let i=0;i<invoice.products.length;i++) {%>
+                <p><%=invoice.products[i].QTY%></p>
+              <%}%></td>
+              <td><% for (let i=0;i<invoice.products.length;i++) {%>
+                <p>$<%=invoice.products[i].unitCost.toFixed(2)%></p>
+              <%}%></td>
+              <td class="amount"><% for (let i=0;i<invoice.products.length;i++) {%>
+                <p>$<%=(invoice.products[i].unitCost*invoice.products[i].QTY).toFixed(2)%></p>
+              <%}%></td>
+          </tr>
+
+        </tbody>
+      </table>               
+  </section>
+  <section class="payment-section">
+    <div class="payment-info">
+      <p>Please remit payment via Interac E-transfer to </p>
+      <p>peaches@peaches.com</p>
+    </div>
+    <div class="payment-details">
+      <table class="table-payment">
+          <thead>
+              <tr>
+                <th><h2> TOTAL DUE:</h2></th>
+              </tr>
+
+          </thead>
+          <tbody>
+              <tr>
+                <td>CAD $<%= invoices[i].totalDue.toFixed(2) %></td>
+              </tr>
+          </tbody>
+      </table>
+  </div>
+  </section>
+  <footer class="footer">
+      <p>&copy; 2023 - KChuan - Peaches Co.</p>
+  </footer>
+  </main>
+</body>
+<% } %> 
+<% } %> 
+</html>

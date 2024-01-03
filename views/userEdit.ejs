@@ -44,14 +44,18 @@
               </td>
             </tr>
             <tr>
-              <td>Roles:</td>
-              <td><input 
-                name="roles" 
-                type="text"
-                value="<%= user.roles ? user.roles : '' %>"
-                
-                /></td>
-            </tr>
+                <% if(reqInfo.roles.includes("Admin") ) { %>
+                  <td>Roles:</td>
+                  <td>
+                    <select name="roles">
+                        <option><%=user.roles%></option>
+                      <option value="RegUser" <% if(user.roles === 'RegUser') { %>selected<% } %>>RegUser</option>
+                      <option value="Admin" <% if(user.roles === 'Admin') { %>selected<% } %>>Admin</option>
+                      <option value="Manager" <% if(user.roles === 'Manager') { %>selected<% } %>>Manager</option>
+                    </select>
+                  </td>
+                <% } %>
+              </tr>
           
             <tr>
               <td></td>

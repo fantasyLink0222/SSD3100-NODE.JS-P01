@@ -1,10 +1,14 @@
 const User = require("../models/User");
 const passport = require("passport");
 const RequestService = require("../services/RequestService");
+const Invoice = require("../models/Invoice");
+const InvoiceOps = require("../data/InvoiceOps");
 const UserOps = require("../data/UserOps.js");
 
 const UserData = require("../data/UserData");
 const _userData = new UserData();
+const _invoiceOps = new InvoiceOps();
+const _userOps = new UserOps();
 
 // Displays registration form.
 exports.Register = async function (req, res) {
@@ -23,6 +27,7 @@ exports.RegisterUser = async function (req, res) {
       companyCode: req.body.companyCode,
       email: req.body.email,
       username: req.body.username,
+      roles:"RegUser"
     });
     // Uses passport to register the user.
     // Pass in user object without password
@@ -101,13 +106,16 @@ exports.Logout = (req, res) => {
 
 exports.UserProfile = async function (req, res) {
   let reqInfo = RequestService.reqHelper(req);
+  console.log("loading my profile");
   if (reqInfo.authenticated) {
     let roles = await _userData.getRolesByUsername(reqInfo.username);
+    
     let sessionData = req.session;
     sessionData.roles = roles;
     reqInfo.roles = roles;
     let userInfo = await _userData.getUserByUsername(reqInfo.username);
-
+    
+  
     return res.render("user/userProfile", {
       reqInfo: reqInfo,
       userInfo: userInfo,
@@ -120,23 +128,150 @@ exports.UserProfile = async function (req, res) {
   }
 };
 
-exports.UserProfileUpdate = async function (req, res) {
+exports.UserProfileEdit= async function (req, res) {
+
+  console.log("editing user profile");
+  
+  let reqInfo = RequestService.reqHelper(req);
+  if (reqInfo.authenticated ) {
+    let roles = await _userData.getRolesByUsername(reqInfo.username);
+    let sessionData = req.session;
+    sessionData.roles = roles;
+    reqInfo.roles = roles;
+    let userInfo = await _userData.getUserByUsername(reqInfo.username);
+
+    console.log("userId", userInfo.user._id);
+    return res.render("user/userProfileEdit", {
+      reqInfo: reqInfo,
+      userInfo: userInfo,
+      
+    });
+  } else {
+    res.redirect(
+      "/user/login?errorMessage=You must be logged in to view this page."
+    );
+  }
+};
+
+exports.UserProfileEditUser= async function (req, res) {
+  let reqInfo = RequestService.reqHelper(req);
+  if (!reqInfo.authenticated) {
+    return res.redirect("/user/login?errorMessage=You must be logged in to view this page.");
+  }
+  
+  let userInfo = await _userData.getUserByUsername(reqInfo.username);
+  const userId = userInfo.user._id;
+  
+  if (req.body) {
+    let resObj = await _userData.updateUserProfileById(userId, req.body);
+    if (resObj.errorMsg != "") {
+      return res.redirect("/user/login?errorMessage=You must be logged in to view this page.")
+    }
+  }
+  
+  
+  let updatedUserInfo = await _userData.getUserByUserId(userId);
+  return res.render("user/userProfile", {
+    reqInfo: reqInfo,
+    userInfo: updatedUserInfo,
+  });
+};
+
+
+// exports.UserProfileEdit = async function (req, res) {
+//   let reqInfo = RequestService.reqHelper(req);
+//   if (reqInfo.authenticated) {
+//     try {
+//       let roles = await _userData.getRolesByUsername(reqInfo.username);
+//       let userInfo = await _userData.getUserByUsername(reqInfo.username);
+//       console.log("user info id", userInfo.user._id)
+//       
+//       let allRoles = await _userData.getAllRoles(); 
+
+//       return res.render("user/userProfileEdit", { // Make sure you have a view file for userProfileEdit
+//         reqInfo: reqInfo,
+//         userInfo: userInfo,
+//         allRoles: allRoles, // Include all possible roles if needed for a dropdown, etc.
+//       });
+//     } catch (error) {
+//       // Handle errors, such as database connectivity issues
+//       console.error("Error in UserProfileEdit: ", error);
+//       res.redirect("/user/profile?errorMessage=An error occurred while trying to edit the profile.");
+//     }
+//   } else {
+//     res.redirect(
+//       "/user/login?errorMessage=You must be logged in to edit your profile."
+//     );
+//   }
+// };
+
+
+
+exports.UserInvoiceList = async function (req, res) {
+  console.log("loading invoices list ");
   let reqInfo = RequestService.reqHelper(req);
   if (reqInfo.authenticated) {
-    let roles = await _userData.getRolesByUsername(reqInfo.username);
-    let sessionData = req.session;
-    sessionData.roles = roles;
-    reqInfo.roles = roles;
-    let userInfo = await _userData.getUserByUsername(reqInfo.username);
-
-    return res.render("user/userProfile", {
-      reqInfo: reqInfo,
-      userInfo: userInfo,
+    try {
+      let roles = await _userData.getRolesByUsername(reqInfo.username);
+      let sessionData = req.session;
+      sessionData.roles = roles;
+      reqInfo.roles = roles;
+      let userInfo = await _userData.getUserByUsername(reqInfo.username);
+      console.log("Fetched userInfo:", userInfo); // Check what userInfo contains
       
-    });
+      if (!userInfo) {
+        console.error("No user found for username:", reqInfo.username);
+        // Handle case where user is not found
+        return res.status(404).send("User not found");
+      }
+      let currentUsername = userInfo.user.username;
+     
+      // Await the promise from Invoice.find()
+      const userInvoices = await Invoice.find({ "user.username": currentUsername });
+      if (!userInvoices) {
+        console.error("No userInvoice found for username:", userInvoices);
+        // Handle case where user is not found
+        return res.status(404).send("Userinvoice not found");
+      }
+     
+      return res.render("user/userInvoices", {
+        reqInfo: reqInfo,
+        userInfo: userInfo,
+        userInvoices: userInvoices,
+      });
+    } catch (error) {
+      // Log and handle the error
+      console.error("Error fetching user invoices: ", error);
+      res.status(500).send("An error occurred while fetching user invoices");
+    }
   } else {
-    res.redirect(
-      "/user/login?errorMessage=You must be logged in to view this page."
-    );
+    res.redirect("/user/login?errorMessage=You must be logged in to view this page.");
   }
 };
+
+// exports.UserInvoiceDetail = async function (req, res) {
+
+
+//   console.log("loading user invoice detail");
+//   const invoiceId = req.params.id;
+//   console.log(`loading single invoice by id ${invoiceId}`);
+//   let invoice = await _invoiceOps.getInvoiceById(invoiceId);
+//   let invoices = await _invoiceOps.getAllInvoices();
+  
+//   if (invoice) {
+//     res.render("user/userInvoices", {
+//       title: "Express Yourself - " + invoice._id,
+//       invoices: invoices,
+//       invoiceId: req.params.id,
+//       invoice: invoice,
+//       layout: false ,
+//       applySpecialCSS: true 
+//     });
+//   } else {
+//     res.render("invoices", {
+//       title: "Billing - Invoices",
+//       invoices: [],
+    
+//     });
+//   }
+// };

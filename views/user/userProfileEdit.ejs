@@ -1,7 +1,11 @@
-<h1 id="pageHeading">New User</h1>
-<div id="list-container">
-    <div>
-      <form action="/users/create" method="POST">
+
+<head>
+    <link rel="stylesheet" href="/styles/styles.css">
+</head>
+<h1>Profile Edit</h1>
+
+<div id="form-container">
+    <form action="/user/userProfileEdit" method="POST">
         <table>
           <tbody>
             <tr>
@@ -10,7 +14,7 @@
                 <input
                   name="username"
                   type="text"
-                  value="<%= user.username ? user.username : '' %>"
+                  value="<%= userInfo.user.username ? userInfo.user.username : '' %>"
                 />
               </td>
             </tr>
@@ -20,7 +24,7 @@
                 <input
                   name="email"
                   type="text"
-                  value="<%= user.email ? user.email : '' %>"
+                  value="<%= userInfo.user.email ? userInfo.user.email : '' %>"
                 />
               </td>
             </tr>
@@ -30,7 +34,7 @@
                 <input
                   name="companyName"
                   type="text"
-                  value="<%= user.companyName ? user.companyName : '' %>"
+                  value="<%= userInfo.user.companyName ? userInfo.user.companyName : '' %>"
                 />
               </td>
             </tr>
@@ -40,23 +44,11 @@
                 <input
                   name="companyCode"
                   type="text"
-                  value="<%= user.companyCode ? user.companyCode : '' %>"
+                  value="<%= userInfo.user.companyCode ? userInfo.user.companyCode: '' %>"
                 />
               </td>
             </tr>
-            <tr>
-                <% if(reqInfo.roles.includes("Admin") ) { %>
-                  <td>Roles:</td>
-                  <td>
-                    <select name="roles">
-                
-                      <option value="RegUser" <% if(user.roles === 'RegUser') { %>selected<% } %>>RegUser</option>
-                      <option value="Admin" <% if(user.roles === 'Admin') { %>selected<% } %>>Admin</option>
-                      <option value="Manager" <% if(user.roles === 'Manager') { %>selected<% } %>>Manager</option>
-                    </select>
-                  </td>
-                <% } %>
-              </tr>
+         
           
             <tr>
               <td></td>
@@ -65,7 +57,4 @@
           </tbody>
         </table>
       </form>
-    </div>
-
-  </div>
-<%= errorMessage %>
+</div>
