@@ -178,33 +178,6 @@ exports.UserProfileEditUser= async function (req, res) {
 };
 
 
-// exports.UserProfileEdit = async function (req, res) {
-//   let reqInfo = RequestService.reqHelper(req);
-//   if (reqInfo.authenticated) {
-//     try {
-//       let roles = await _userData.getRolesByUsername(reqInfo.username);
-//       let userInfo = await _userData.getUserByUsername(reqInfo.username);
-//       console.log("user info id", userInfo.user._id)
-//       
-//       let allRoles = await _userData.getAllRoles(); 
-
-//       return res.render("user/userProfileEdit", { // Make sure you have a view file for userProfileEdit
-//         reqInfo: reqInfo,
-//         userInfo: userInfo,
-//         allRoles: allRoles, // Include all possible roles if needed for a dropdown, etc.
-//       });
-//     } catch (error) {
-//       // Handle errors, such as database connectivity issues
-//       console.error("Error in UserProfileEdit: ", error);
-//       res.redirect("/user/profile?errorMessage=An error occurred while trying to edit the profile.");
-//     }
-//   } else {
-//     res.redirect(
-//       "/user/login?errorMessage=You must be logged in to edit your profile."
-//     );
-//   }
-// };
-
 
 
 exports.UserInvoiceList = async function (req, res) {
@@ -248,30 +221,3 @@ exports.UserInvoiceList = async function (req, res) {
     res.redirect("/user/login?errorMessage=You must be logged in to view this page.");
   }
 };
-
-// exports.UserInvoiceDetail = async function (req, res) {
-
-
-//   console.log("loading user invoice detail");
-//   const invoiceId = req.params.id;
-//   console.log(`loading single invoice by id ${invoiceId}`);
-//   let invoice = await _invoiceOps.getInvoiceById(invoiceId);
-//   let invoices = await _invoiceOps.getAllInvoices();
-  
-//   if (invoice) {
-//     res.render("user/userInvoices", {
-//       title: "Express Yourself - " + invoice._id,
-//       invoices: invoices,
-//       invoiceId: req.params.id,
-//       invoice: invoice,
-//       layout: false ,
-//       applySpecialCSS: true 
-//     });
-//   } else {
-//     res.render("invoices", {
-//       title: "Billing - Invoices",
-//       invoices: [],
-    
-//     });
-//   }
-// };
