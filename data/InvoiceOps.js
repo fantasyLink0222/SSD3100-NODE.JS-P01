@@ -14,6 +14,20 @@ class InvoiceOps {
     }
   }
 
+
+  async getUserInvoices(username) {
+    try {
+      console.log("Fetching all invoices for a certain user");
+      // Directly find invoices for the given username
+      const userInvoices = await Invoice.find({ "user.username": username });
+  
+      return userInvoices;
+    } catch (error) {
+      console.error("Error fetching invoices: ", error);
+      throw error;
+    }
+  }
+
   async getInvoiceById(id) {
     try{
       console.log("fetching invoice by id")
@@ -73,6 +87,28 @@ class InvoiceOps {
     }
   }
   
+  async markInvoiceAsPaidById(id) {
+    try{
+
+    console.log(`mark invoice as paid by id ${id}`);
+    const result = await Invoice.findByIdAndUpdate(id,{paid:true});
+   
+
+    console.log("updated invoice: ", result);
+    return {
+      obj: result,
+      errorMsg: "",
+    };
+
+    }catch (error) {
+      console.error("Error deleting invoice: ", error);
+      throw error;
+    }
+    
+  }
+  
+
+
 }
 
 

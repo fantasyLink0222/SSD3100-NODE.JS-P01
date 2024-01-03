@@ -1,17 +1,40 @@
-<main id="details-container">
+
+<main id="mainContainer">
     <% for (let i = 0; i < products.length; i++) { %> <% if (products[i].id ===
         productId) { %>
-        <h1><%= products[i].productName%></h1>
-        <div id="view">
-            <div><strong>Product ID:</strong> <%= products[i].id%></div>
-            <div><strong>Code:</strong> <%= products[i].productCode%></div>
-            <div><strong>Cost:</strong> <%= products[i].unitCost%></div>
-        </div>
-        <div id="edit">
-            <a href="/products/edit/<%=products[i]._id%>"><button class="btn btn-warning">Edit</button></a>
-        </div>
-        <div id="back-to-btn">
-            <a href="/products"><button class="btn btn-primary">Back to Products</button></a
-        </div>
-    <% } %> <% } %>
-</main>
+        <h1>Product details</h1>
+
+    <div id="list-container">
+  
+      <table>
+        <tr>
+          <th>Product Name:</th>
+          <td><%= products[i].productName%></td>
+        </tr>
+        <tr>
+          <th>Product ID:</th>
+          <td><%= products[i].id%></td>
+        </tr>
+        <tr>
+          <th>Product Code:</th>
+          <td><%= products[i].productCode%></td>
+        </tr>
+        <tr>
+          <th>Unit Cost:</th>
+          <td> <%= products[i].unitCost%></td>
+        </tr>
+        
+        <tr>
+          <td >
+            <a href="/products/edit/<%=products[i]._id%>" class="btn btn-warning">Edit</a>
+          </td>
+          <td>
+            <a href="/products" class="btn btn-primary">Back to Product list</a>
+          </td>
+           
+        </tr>
+      </table>
+    </div>
+
+    <% } %><% } %>
+  </main>

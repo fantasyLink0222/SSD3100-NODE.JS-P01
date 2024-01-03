@@ -1,0 +1,43 @@
+
+
+  <head>
+    <link rel="stylesheet" href="/styles/styles.css">
+  </head>
+  <main id="mainContainer">
+    <div id="header-container">
+      <h1>Login</h1>
+  
+      <div id="list-container">
+        <div>
+          <form action="/user/login" method="POST">
+            <table>
+              <tbody>
+                <tr>
+                  <td>User Name:</td>
+                  <td>
+                    <input
+                      name="username"
+                      type="text"
+                      value="<%= user.username ? user.username : '' %>"
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>Password:</td>
+                  <td><input name="password" type="password" /></td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td><input type="submit" value="Submit" /></td>
+                </tr>
+              </tbody>
+            </table>
+          </form>
+        </div>
+
+      </div>
+    
+  </main>
+
+  <%= errorMessage ? errorMessage : "" %>
+  

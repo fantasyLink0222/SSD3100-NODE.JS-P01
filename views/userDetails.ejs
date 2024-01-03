@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="/styles/styles.css">
+</head>
+<body>
+  <main id="mainContainer">
+    <% for (let i=0; i < users.length; i++) { %> <% if
+        (users[i].id===userId) { %>
+    <div id="header-container">
+      <h1>User Profile</h1>
+    </div>
+
+    <div id="list-container">
+  
+      <table>
+        <tr>
+          <th>Username:</th>
+          <td><%= users[i].username %></td>
+        </tr>
+        <tr>
+          <th>Company:</th>
+          <td><%= users[i].companyName %></td>
+        </tr>
+        <tr>
+          <th>Company code:</th>
+          <td><%= users[i].companyCode %></td>
+        </tr>
+        <tr>
+          <th>Email:</th>
+          <td><%= users[i].email %></td>
+        </tr>
+        
+          <tr>
+            <th>Roles:</th>
+            <td><%= users[i].roles.join(', ') %></td>
+          </tr>
+       
+        <tr>
+          <td >
+            <a href="/users/edit/<%= userId  %>" class="btn btn-warning">Edit</a>
+          </td>
+          <td>
+            <a href="/users" class="btn btn-primary">Back to user list</a>
+          </td>
+           
+        </tr>
+      </table>
+    </div>
+
+    <% } %><% } %>
+  </main>
+</body>
+</html>

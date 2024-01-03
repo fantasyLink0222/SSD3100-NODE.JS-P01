@@ -1,0 +1,76 @@
+ 
+
+  <head>
+    <link rel="stylesheet" href="/styles/styles.css">
+  </head>
+  <main id="mainContainer">
+    <div id="header-container">
+      <h1>Register</h1>
+  
+      <div id="list-container">
+        <div>
+          <form action="/user/register" method="POST">
+            <table>
+              <tbody>
+                <tr>
+                  <td>User Name:</td>
+                  <td>
+                    <input
+                      name="username"
+                      type="text"
+                      value="<%= user.username ? user.username : '' %>"
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>Email:</td>
+                  <td>
+                    <input
+                      name="email"
+                      type="text"
+                      value="<%= user.email ? user.email : '' %>"
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>Company name:</td>
+                  <td>
+                    <input
+                      name="companyName"
+                      type="text"
+                      value="<%= user.companyName ? user.companyName : '' %>"
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>Company Code:</td>
+                  <td>
+                    <input
+                      name="companyCode"
+                      type="text"
+                      value="<%= user.companyCode ? user.companyCode : '' %>"
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>Password:</td>
+                  <td><input name="password" type="password" /></td>
+                </tr>
+                <tr>
+                  <td>Password Confirmation:</td>
+                  <td><input name="passwordConfirm" type="password" /></td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td><input type="submit" value="Submit" /></td>
+                </tr>
+              </tbody>
+            </table>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <%= errorMessage %>

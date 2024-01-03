@@ -1,0 +1,60 @@
+
+<head>
+    <link rel="stylesheet" href="/styles/styles.css">
+</head>
+<h1>Profile Edit</h1>
+
+<div id="form-container">
+    <form action="/user/userProfileEdit" method="POST">
+        <table>
+          <tbody>
+            <tr>
+              <td>User Name:</td>
+              <td>
+                <input
+                  name="username"
+                  type="text"
+                  value="<%= userInfo.user.username ? userInfo.user.username : '' %>"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>Email:</td>
+              <td>
+                <input
+                  name="email"
+                  type="text"
+                  value="<%= userInfo.user.email ? userInfo.user.email : '' %>"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>Company name:</td>
+              <td>
+                <input
+                  name="companyName"
+                  type="text"
+                  value="<%= userInfo.user.companyName ? userInfo.user.companyName : '' %>"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>Company Code:</td>
+              <td>
+                <input
+                  name="companyCode"
+                  type="text"
+                  value="<%= userInfo.user.companyCode ? userInfo.user.companyCode: '' %>"
+                />
+              </td>
+            </tr>
+         
+          
+            <tr>
+              <td></td>
+              <td><input type="submit" value="Submit" /></td>
+            </tr>
+          </tbody>
+        </table>
+      </form>
+</div>

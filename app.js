@@ -2,14 +2,22 @@
 
 const express = require("express");
 const path = require("path");
+const bodyParser = require("body-parser");
 const app = express();
-const port = process.env.PORT || 3007;
+const port = process.env.PORT || 3022;
+const passport = require("passport");
+const LocalStrategy = require("passport-local");
 require("dotenv").config();
 
+
+
 //set up for the searchbar
-const profileController = require("./controllers/ProfileController");
+const userOpsController = require("./controllers/UserOpsController");
 const productController = require("./controllers/ProductController");
 const invoiceController = require("./controllers/InvoiceController");
+const secureController = require("./controllers/SecureController");
+const userController = require("./controllers/UserController");
+const IndexController = require("./controllers/IndexController");
 
 //declaring mongoose
 const mongoose = require("mongoose");
@@ -17,12 +25,9 @@ const mongoose = require("mongoose");
 //mongoose connection string
 
  //"mongodb+srv://test_user01:KbBFpMsInfrkpdKW@ss3100-p01.hjj7rm1.mongodb.net/?retryWrites=true&w=majority"
- const uri = "mongodb+srv://test_user01:KbBFpMsInfrkpdKW@ss3100-p01.hjj7rm1.mongodb.net/?retryWrites=true&w=majority";
+ const uri = process.env.MONGO_CONNECTION_STRING;
 //load indexRouter
-const indexRouter = require("./routers/indexRouter");
-const productsRouter = require("./routers/productsRouter");
-const profilesRouter = require("./routers/profilesRouter");
-const invoicesRouter = require("./routers/invoicesRouter");
+
 
 // set up default mongoose connection
 mongoose.connect(uri);
@@ -38,13 +43,7 @@ app.set("views", path.join(__dirname, "views"));
 //set view engine to ejs
 app.set("view engine", "ejs");
 
-// app.get('/invoices/create', async (req, res) => {
-//   // Example: Fetch clients from a database
-//   const profiles = await getprofilesFromDatabase(); // Replace with your actual data fetching logic
 
-//   // Pass the clients data to the EJS template
-//   res.render('./views/invoice-create', { profiles: profiles });
-// });
 
 //import express ejs layouts
 const expressLayouts = require("express-ejs-layouts");
@@ -61,30 +60,67 @@ const logger = require("morgan");
 //use logger as middleware
 app.use(logger("dev"));
 
+// Set up session management
+app.use(
+  require("express-session")({
+    secret:"a longe time ago",
+    resave: false,
+    saveUninitialized: false,
+  })
+)
+
+
 //parse applicaion form-urlencoded
-const bodyParser = require("body-parser");
-const { profile } = require("console");
-const Profile = require("./models/Product");
+
+// const { profile } = require("console");
+// const Profile = require("./models/Product");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+// Initialize passport and configure for User model
+app.use(passport.initialize());
+app.use(passport.session());
+const User = require("./models/User");
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+
+
 
 //express static middleware : making the public folder globally accessible
 app.use(express.static("public"));
 
-// Profile search route
-app.get("/profiles/search", profileController.searchProfiles);
+// User search route
+app.get("/Users/search", userOpsController.searchUsers);
 
 // Product search route
-app.get("/products/search", productController.searchProducts);
+app.get("/products/search", secureController.Manager,productController.searchProducts);
 
 // Invoice search route
-app.get("/invoices/search", invoiceController.searchInvoices);
+app.get("/invoices/search", secureController.Manager,invoiceController.searchInvoices);
 
 //routes
-app.use("/", indexRouter);
+const indexRouter = require("./routers/indexRouter"); 
+// app.use("/", indexRouter);
+app.use(indexRouter);
+
+const productsRouter = require("./routers/productsRouter");
 app.use("/products", productsRouter);
-app.use("/profiles", profilesRouter);
+
+const userOpsRouter = require("./routers/userOpsRouter");//client
+app.use("/users", userOpsRouter);
+
+const invoicesRouter = require("./routers/invoicesRouter");
 app.use("/invoices", invoicesRouter);
+
+const userRouter = require("./routers/userRouter");
+app.use("/user", userRouter);
+
+// Secure routes
+const secureRouter = require("./routers/secureRouter");
+app.use("/secure", secureRouter);
+
 
 //catch any unmatched routes
 app.all("/*", (req, res) => {
@@ -94,22 +130,3 @@ app.all("/*", (req, res) => {
 //start listening to port
 app.listen(port, () => console.log(`app listening on port ${port}!`));
 
-// Once we have our connection, let's load and log our profiles
-// db.once("open", async function () {
-//     const profiles = await getAllProfiles();
-//     console.log("Profiles:", profiles);
-//     db.close();
-// });
-
-// Don't close the connection here
-
-//   async function getAllProfiles() {
-//     let profiles = await Profile.find({});
-//     return profiles;
-//   }
-
-// async function getProfilesById(id){
-//     console.log(`getting profile by id ${id}`);
-//     let profile = await Profile.findById(id);
-//     return profile;
-// }

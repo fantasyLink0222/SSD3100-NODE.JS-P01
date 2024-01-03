@@ -1,6 +1,6 @@
 <h1><%= product._id ? "Edit" : "New" %> Product</h1>
 <div id="form-container">
-    <form action="/products/edit/<%= product._id ? product._id : '' %>" method="POST">
+    <form action="/products/create/<%= product._id ? product._id : '' %>" method="POST">
         <label for="productName">Product Name: </label>
         <input id="productName" name="productName" type="text" value=<%= product.productName ? product.productName : '' %>>
     

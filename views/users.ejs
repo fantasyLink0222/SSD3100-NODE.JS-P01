@@ -1,0 +1,44 @@
+<head>
+  <link rel="stylesheet" href="/styles/styles.css">
+</head>
+<main id="mainContainer">
+  <div id="header-container">
+    <h1>Users</h1>
+    <form id="searchForm" action="/users/search" method="GET">
+      <input class="searchbar" type="text" name="q" placeholder="Search by name">
+      <button class="btn btn-primary" type="submit">Search</button>
+    </form>
+    <a id="create-button" href="/users/create"><button id="newClient" class="btn btn-success">Add New User</button></a>
+  </div>
+
+  <div id="list-container">
+    <table>
+      <thead>
+        <tr>
+          <th>User Name</th>
+          <th>Company</th>
+          <th>Code</th>
+          <th>Email</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% users.forEach(user => { %>
+          <tr>
+            <td><a href="/users/<%= user.id %>"><%= user.username %></a></td>
+            <td><%= user.companyName %></td>
+            <td><%= user.companyCode %></td> 
+            <td><%= user.email %></td>
+            <td>
+              <a href="/users/<%= user.id %>/delete">
+                <button class="btn btn-danger">Delete</button>
+              </a>
+            </td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </div>
+</main>
+
+
