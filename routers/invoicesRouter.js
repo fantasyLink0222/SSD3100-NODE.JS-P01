@@ -12,7 +12,7 @@ const dataPath = path.join(__dirname, "../data/");
 
 invoicesRouter.get("/", secureController.Manager,invoiceController.Index);
 
-// note that the create route need to come before the detail routes or else it will be interpreted as a detail route
+
 invoicesRouter.get("/create", secureController.Manager,invoiceController.Create);
 invoicesRouter.post("/create",secureController.Manager, invoiceController.CreateInvoice);
 
@@ -22,8 +22,6 @@ invoicesRouter.get("/:id/delete", secureController.Manager,invoiceController.Del
 invoicesRouter.get("/:id/MarkAsPaid", secureController.Manager,invoiceController.MarkInvoice);
 invoicesRouter.post("/:id/MarkAsPaid", secureController.Manager,invoiceController.MarkInvoiceAsPaid);
 
-//invoicesRouter.get("/delete/:id", InvoiceController.DeleteInvoiceById);
-// invoicesRouter.get("/search", InvoiceController.SearchProducts);
 
 
 module.exports = invoicesRouter;
